@@ -1,2 +1,39 @@
-# personal-task-management-tool
-This repository contains the source code and related documents for a Task Management Software, which is designed to help individuals organize, track, and manage their tasks, to-do lists, and responsibilities efficiently and effectively.
+# Project Overview
+## Project Background
+This software is designed to assist individuals in organizing, tracking, and managing their tasks, to-do lists, and responsibilities effectively and efficiently. It also has the capability to generate progress reports or summaries of completed tasks over a specified period.
+
+## Stakeholders
+* Product Owner: Dr. Zang
+* Scrum Master: Jean Bonefont
+* Developers: Ayden Craig, Jordan Ruocco, Emily Hightower
+* Users: Career professionals, Students, Team Managers, Educators
+
+## Assumptions
+* Users have Internet access
+* Users have the ability to enter data
+* Users will be using the product regularly
+* Security of program will not be a major focus as it is outside the scope of the project
+  
+## Scope of Work to Complete
+
+### Features to be Developed
+1. **User Registration and Profiles:** Users create accounts and profiles to access and manage their tasks.
+2. **Task Creation and Organization:** Create tasks with titles, descriptions, due dates, priorities, and categories.
+3. **To-Do Lists:** Create and manage to-do lists with individual tasks.
+4. **Task Deadlines and Reminders:** Set due dates for tasks and receive reminders or notifications.
+5. **Task Status Tracking:** Track task progress.
+6. **Filters and Sorting:** Filter and sort tasks based on various criteria.
+7. **Search Functionality:** Search for tasks using keywords, titles, or descriptions.
+8. **Progress Reports:** Generate progress reports or summaries of completed tasks over a specific period.
+
+## Running Environment
+* Running platforms: Webapp to run in an internet browser (Edge or Chrome)
+* Database requirements: PostgresSQL or Mongo DB
+* Operating system compatibility: Windows, MacOS
+
+## Project Development and Management Tools
+* Scrum tool: Trello
+* Version control tool: GitHub
+* Programming IDEs: VS Code or IntelliJ
+* Programming language: Java or JavaScript
+
