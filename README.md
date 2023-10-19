@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# Project Overview
+## Project Background
+This software is designed to assist individuals in organizing, tracking, and managing their tasks, to-do lists, and responsibilities effectively and efficiently. It also has the capability to generate progress reports or summaries of completed tasks over a specified period.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Stakeholders
+* Product Owner: Dr. Zang
+* Scrum Master: Jean Bonefont
+* Developers: Ayden Craig, Jordan Ruocco, Emily Hightower
+* Users: Career professionals, Students, Team Managers, Educators
 
-## Available Scripts
+## Assumptions
+* Users have Internet access
+* Users have the ability to enter data
+* Users will be using the product regularly
+* Security of program will not be a major focus as it is outside the scope of the project
+  
+## Scope of Work to Complete
 
-In the project directory, you can run:
+### Features to be Developed
+1. **User Registration and Profiles:** Users create accounts and profiles to access and manage their tasks.
+2. **Task Creation and Organization:** Create tasks with titles, descriptions, due dates, priorities, and categories.
+3. **To-Do Lists:** Create and manage to-do lists with individual tasks.
+4. **Task Deadlines and Reminders:** Set due dates for tasks and receive reminders or notifications.
+5. **Task Status Tracking:** Track task progress.
+6. **Filters and Sorting:** Filter and sort tasks based on various criteria.
+7. **Search Functionality:** Search for tasks using keywords, titles, or descriptions.
+8. **Progress Reports:** Generate progress reports or summaries of completed tasks over a specific period.
 
-### `yarn start`
+## Running Environment
+* Running platforms: Webapp to run in an internet browser (Edge or Chrome)
+* Database requirements: PostgresSQL or Mongo DB
+* Operating system compatibility: Windows, MacOS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Project Development and Management Tools
+* Scrum tool: Trello
+* Version control tool: GitHub
+* Programming IDEs: VS Code or IntelliJ
+* Programming language: Java or JavaScript
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
