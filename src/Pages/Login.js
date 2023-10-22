@@ -6,8 +6,7 @@ function Login() {
   let navigate = useNavigate();
 
   const handleLogin = () => {
-    // Here, you'd typically validate the user's login details.
-    // For this example, we'll assume login is always successful.
+ 
     navigate('/hello-world');
   };
 
