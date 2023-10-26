@@ -24,7 +24,7 @@ function Login() {
           <GoogleLogin
           onSuccess={credentialResponse => {
 
-            //Object containing google account data to store in database is passed to main page
+            
             var credentialResponseDecoded = jwtDecode(credentialResponse.credential)
             
             handleLogin(credentialResponseDecoded)

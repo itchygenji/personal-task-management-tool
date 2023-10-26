@@ -1,17 +1,22 @@
 import React from 'react';
-import { useLocation } from 'react-router';
-
+import { useLocation, useNavigate } from 'react-router';
 
 function HelloWorld(props) {
+  
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  //location.stat.user is object with account info from google login
-  const location = useLocation()
-  console.log(location.state.user)
+  console.log(location.state.user);
+
+  const handleGoToProfile = () => {
+    navigate('/profile');
+  }
 
   return (
     <div>
       <h1>Hello, {location.state.user.given_name}</h1>
       <p>Welcome to the application!</p>
+      <button onClick={handleGoToProfile}>Go to Profile</button>
     </div>
   );
 }
