@@ -1,9 +1,7 @@
-// ProfileView.js
 import React from 'react';
 
 function ProfileView(props) {
-    // Assuming you've stored user data in a global state/context
-    // otherwise you can pass the data via the state in the navigate function
+   
     const { firstName, lastName, phoneNumber, streetAddress, city, state, zipCode } = props.location.state;
 
     return (
