@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-function HelloWorld(props) {
+function Home(props) {
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,4 +21,4 @@ function HelloWorld(props) {
   );
 }
 
-export default HelloWorld;
+export default Home;
