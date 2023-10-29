@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Login from './Pages/Login/Login';
 import HelloWorld from './Pages/Home';
-import Profile from './Pages/Profile';  
+import Profile from './Pages/CreateProfile';  
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -18,7 +18,7 @@ root.render(
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<HelloWorld />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/create-profile" element={<Profile />} />
           {/*<Route path="/profile-view" element={<ProfileView />} /> */}
           <Route path="/" element={<Login />} />
         </Routes>

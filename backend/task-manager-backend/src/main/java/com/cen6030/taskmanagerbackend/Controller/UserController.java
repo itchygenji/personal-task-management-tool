@@ -5,6 +5,7 @@ import com.cen6030.taskmanagerbackend.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +29,8 @@ public class UserController {
         repo.save(user);
         return "Added User";
     }
-    @GetMapping("/findUserByEmail")
-    public Optional<User> findUserByEmail(@RequestBody String email){
+    @GetMapping("/findUserByEmail/{email}")
+    public Optional<User> findUserByEmail(@PathVariable("email") String email){
         return repo.findById(email);
 
     }

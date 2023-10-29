@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 
-function Profile() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+function CreateProfile(props) {
+    
+    const location = useLocation();
+    const navigate = useNavigate();
+    console.log(location.state.user)
+
     const [phoneNumber, setPhoneNumber] = useState('');
     const [streetAddress, setStreetAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [zipCode, setZipCode] = useState('');
-    const [showProfile, setShowProfile] = useState(false);
 
     const handlePhoneNumberChange = (e) => {
         let value = e.target.value.replace(/\D/g, ''); 
@@ -43,30 +46,35 @@ function Profile() {
 
     const createProfile = () => {
         //add new info to DB
-        setShowProfile(true);
-        //navigate('/profile-view');
+
+        fetch("http://localhost:8080/addUser",{
+              method:"POST",
+              headers:{
+              "Accept": "application/json",
+              "Content-Type":"application/json"},
+              body: JSON.stringify({
+              email:location.state.user.email,
+              fullName:location.state.user.name,
+              phoneNum:phoneNumber,
+              address:streetAddress,
+              city:city,
+              state:state,
+              zipCode:zipCode
+            })
+            }).then((res => res.text())
+            ).then((data) =>{
+              console.log(data)
+              if(data === "Added User"){
+                navigate('/home', {state: {user: location.state.user}});
+              }
+              else
+                console.log('error saving user')
+            })
     }
 
     return (
         <div>
             <h2>Create Your Profile</h2>
-            
-            {/* Name Block */}
-            <div>
-                <h3>Name</h3>
-                <input
-                    type="text"
-                    placeholder="First Name"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                />
-            </div>
             
             {/* Phone Number Block */}
             <div>
@@ -115,16 +123,16 @@ function Profile() {
             </div>
 
             {/* Display Profile if created */}
-            {showProfile && (
+{/*             {showProfile && (
                 <div>
                     <h3>Your Profile</h3>
                     <p><strong>Name:</strong> {firstName + ' '} {lastName}</p>
                     <p><strong>Phone:</strong> {phoneNumber}</p>
                     <p><strong>Address:</strong> {streetAddress}, {city}, {state}, {zipCode}</p>
                 </div>
-            )}
+            )} */}
         </div>
     );
 }
 
-export default Profile;
+export default CreateProfile;
