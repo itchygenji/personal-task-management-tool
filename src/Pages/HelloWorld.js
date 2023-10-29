@@ -12,11 +12,17 @@ function HelloWorld(props) {
     navigate('/profile');
   }
 
+  const handleGoToDashboard = () => {
+      navigate('/dashboard');
+  }
+
   return (
     <div>
       <h1>Hello, {location.state.user.given_name}</h1>
       <p>Welcome to the application!</p>
       <button onClick={handleGoToProfile}>Go to Profile</button>
+      <p></p>
+      <button onClick={handleGoToDashboard}>Go to Dashboard</button>
     </div>
   );
 }
