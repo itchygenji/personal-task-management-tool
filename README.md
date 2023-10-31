@@ -37,3 +37,27 @@ This software is designed to assist individuals in organizing, tracking, and man
 * Programming IDEs: VS Code or IntelliJ
 * Programming language: Java or JavaScript
 
+
+# Notes for Developers
+## Project Setup Instructions
+### Set up the React App
+1. Set up an initial React app using the following guide: https://create-react-app.dev/docs/getting-started
+2. Pull down from the GitHub repository (https://github.com/itchygenji/personal-task-management-tool/tree/Test) and checkout the desired branch
+
+### Installing the Dependencies
+1. Run npm install to install any outstanding dependencies
+2. Run npm install jwt-decode
+3. Run npm install @react-oauth/google@latest
+
+### Connecting the Mongo Database
+Note: These instructions are for the IntelliJ IDE. For other IDEs, refer to MongoDB's documentation.
+1. Go to File > New > Data Source > MongoDB
+2. Change Connection type to URL only
+3. In host, put the following value: mongodb+srv://cen6030:<password>@cluster0.u5ta70n.mongodb.net/
+4. In the string above, replace <password> with the cen6030 password (posted in Discord)
+6. Click Test Connection and ensure the test succeeds
+7. Click OK
+8. In the pop-up, set select MongoDB as the default SQL dialect
+
+### Run the Application
+1. In terminal, run npm start
