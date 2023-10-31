@@ -1,16 +1,27 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-function Home(props) {
-  
+function Home() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  
-
   const handleGoToProfile = () => {
-    //navigate('/create-profile');
-  }
+    const userEmail = location.state.user.email;
+
+    fetch(`http://localhost:8080/findUserByEmail/${userEmail}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then((userData) => {
+        navigate('/profile-view', { state: userData });
+      })
+      .catch((error) => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+  };
 
   return (
     <div>
