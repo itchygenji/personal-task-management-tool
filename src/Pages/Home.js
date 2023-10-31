@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import '../css/Home.css'
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function Home() {
@@ -36,7 +38,7 @@ function Home() {
   };
 
   return (
-    <div>
+    <div className='home'>
       <h1>Hello, {location.state.user.given_name}</h1>
       <p>Welcome to the application!</p>
       <button onClick={handleGoToProfile}>View Profile</button>
