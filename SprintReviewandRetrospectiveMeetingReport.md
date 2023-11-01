@@ -30,7 +30,7 @@ All our meetings were either over the phone/messages or Discord. We would all at
 
 **Each team member’s contribution on the project development.** Contribution works as a scalar multiplier applied to the group’s grade for an individual deliverable. This multiplier ranges from 0 to 1, where 0 represents that you provided minimal support to your team and 1 represents that you were a productive member of the team and did all assigned tasks.
 
-| Name           | Contribution (0 -1) |
+| Name           | Contribution(0 - 1) |
 |----------------|---------------------|
 | Ayden Craig    | 1.0                 |
 | Emily Hightower| 1.0                 |
