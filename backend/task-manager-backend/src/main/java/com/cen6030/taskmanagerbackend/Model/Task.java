@@ -4,6 +4,9 @@ package com.cen6030.taskmanagerbackend.Model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Task {
 
     

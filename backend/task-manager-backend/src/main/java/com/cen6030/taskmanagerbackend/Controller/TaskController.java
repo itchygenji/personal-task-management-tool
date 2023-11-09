@@ -1,6 +1,7 @@
 package com.cen6030.taskmanagerbackend.Controller;
 
 import com.cen6030.taskmanagerbackend.Model.Task;
+import com.cen6030.taskmanagerbackend.Model.User;
 import com.cen6030.taskmanagerbackend.Repository.TaskRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,5 +18,10 @@ public class TaskController {
     @Autowired
     private TaskRepo taskRepo;
 
+    @PostMapping("/addTask")
+    public String saveUser(@RequestBody Task task){
+        taskRepo.save(task);
+        return "Added Task";
+    }
     
 }
