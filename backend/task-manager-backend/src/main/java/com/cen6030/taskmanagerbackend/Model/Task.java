@@ -18,7 +18,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, String dueDate, String priority, String category) {
+    public Task(String title, String description, String dueDate, String priority, String category, String userId) {
         
         LocalDateTime localDate = LocalDateTime.now();
         DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
@@ -81,3 +81,5 @@ public class Task {
         return this.userId;
     }
 }
+
+

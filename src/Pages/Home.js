@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Home.css'
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -7,9 +7,27 @@ function Home() {
   const [tasks, setTasks] = useState([]); // Initial empty array of tasks
   const location = useLocation();
   const navigate = useNavigate();
+  const userId = location.state.user.email;
+  const userEmail = location.state.user.email;
+
+
+  useEffect(() => { 
+
+    // load tasks from database 
+    fetch(`http://localhost:8080/findTasksByUserId/${userId}`) 
+    .then(res => res.json()) 
+    .then(data => { 
+
+      // update tasks state with the fetched tasks 
+      setTasks(data);
+      console.log("fetched tasks...tasks are", data) }) 
+      .catch(error => { 
+        console.error(error); 
+      }); 
+    }, 
+    []); 
 
   const handleGoToProfile = () => {
-    const userEmail = location.state.user.email;
 
     fetch(`http://localhost:8080/findUserByEmail/${userEmail}`)
       .then((response) => {
@@ -27,10 +45,39 @@ function Home() {
   };
 
   const addTask = (newTask) => {
-    newTask = prompt("Type the new task's name")
-    setTasks([...tasks, newTask]);
-    // Here you would also send a request to add the task to the backend
-  };
+
+    // prompt the user to enter the task details
+    let title = prompt("Enter the task title");
+    let description = prompt("Enter the task description");
+    let dueDate = prompt("Enter the task due date");
+    let priority = prompt("Enter the task priority");
+    let category = prompt("Enter the task category");
+
+    // create an object with the task data
+    let taskData = {
+        title: title,
+        description: description,
+        dueDate: dueDate,
+        priority: priority,
+        category: category,
+        userId: userEmail
+    };
+
+    console.log("new task created with taskData: ", taskData)
+
+    // send the data to the backend 
+    fetch(`http://localhost:8080/addTask`, {
+        method: 'POST',
+        body: JSON.stringify(taskData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => res.json());
+    console.log("task sent to backend with taskData ", taskData)
+
+
+};
 
   const removeTask = (taskIndex) => {
     const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
@@ -47,11 +94,18 @@ function Home() {
       <div>
         <h2>Your Tasks</h2>
         <ul>
-          {tasks.map((task, index) => (
-            <li key={index}>
-              {task} <button onClick={() => removeTask(index)}>Remove</button>
-            </li>
-          ))}
+            {Array.isArray(tasks) && tasks.map((task, index) => (
+              <li key={index}>
+                <div className="task">
+                  <h3>{task.title}</h3>
+                  <p>{task.description}</p>
+                  <p>Due date: {task.dueDate}</p>
+                  <p>Priority: {task.priority}</p>
+                  <p>Category: {task.category}</p>
+                </div>
+                <button onClick={() => removeTask(index)}>Remove</button>
+              </li>
+            ))}
         </ul>
         <button onClick={() => addTask('New Task')}>Add Task</button>
       </div>
