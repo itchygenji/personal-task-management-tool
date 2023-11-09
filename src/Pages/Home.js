@@ -27,6 +27,7 @@ function Home() {
   };
 
   const addTask = (newTask) => {
+    newTask = prompt("Type the new task's name")
     setTasks([...tasks, newTask]);
     // Here you would also send a request to add the task to the backend
   };
