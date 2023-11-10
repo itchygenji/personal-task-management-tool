@@ -16,23 +16,8 @@ function Home(props) {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const userId = location.state.user.email;
   const userEmail = location.state.user.email;
 
-/*   useEffect(() => { 
-    // load tasks from database 
-    fetch(`http://localhost:8080/findTasksByUserId/${userId}`) 
-    .then(res => res.json()) 
-    .then(data => { 
-
-      // update tasks state with the fetched tasks 
-      setTasks(data);
-      console.log("fetched tasks...tasks are", data) }) 
-      .catch(error => { 
-        console.error(error); 
-      }); 
-    }, 
-    []);  */
 
   const handleGoToProfile = () => {
 
@@ -74,6 +59,9 @@ function Home(props) {
     .then(res => {
       res.json()
       console.log("task sent to backend with taskData ", taskData)
+
+      setTasks([...tasks, taskData])
+
       setShowTaskForm(false)
       setTitle("")
       setDescription("")
@@ -97,8 +85,6 @@ function Home(props) {
       <h1>Hello, {location.state.user.given_name}</h1>
       <p>Welcome to the application!</p>
       <button onClick={handleGoToProfile}>View Profile</button>
-
-
 
       <div className="tasks-container">
         <h2>Your Tasks</h2>
