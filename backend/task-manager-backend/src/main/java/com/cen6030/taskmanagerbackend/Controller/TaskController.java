@@ -3,6 +3,9 @@ package com.cen6030.taskmanagerbackend.Controller;
 import com.cen6030.taskmanagerbackend.Model.Task;
 import com.cen6030.taskmanagerbackend.Model.User;
 import com.cen6030.taskmanagerbackend.Repository.TaskRepo;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +22,16 @@ public class TaskController {
     private TaskRepo taskRepo;
 
     @PostMapping("/addTask")
-    public String saveUser(@RequestBody Task task){
+    public Task addTask(@RequestBody Task task) {
+        // Save the task to the database using the TaskRepo object
         taskRepo.save(task);
-        return "Added Task";
+        // Return the task as a response
+        return task;
     }
-    
+
+    @GetMapping("/findTasksByUserId/{userId}")
+    public Optional<Task> findTasksByUserId(@PathVariable("userId") String userId){
+        return taskRepo.findById(userId);
+
+    }
 }

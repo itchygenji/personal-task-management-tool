@@ -1,15 +1,40 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Home.css'
 import { useLocation, useNavigate } from 'react-router-dom';
+import AddTaskForm from '../Components/AddTaskForm';
 
-function Home() {
+function Home(props) {
   const [tasks, setTasks] = useState([]); // Initial empty array of tasks
+  const [showTaskForm, setShowTaskForm] = useState(false)
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [dueDate, setDueDate] = useState("")
+  const [priority, setPriority] = useState("")
+  const [category, setCategory] = useState("")
+  
+  
   const location = useLocation();
   const navigate = useNavigate();
+  const userId = location.state.user.email;
+  const userEmail = location.state.user.email;
+
+/*   useEffect(() => { 
+    // load tasks from database 
+    fetch(`http://localhost:8080/findTasksByUserId/${userId}`) 
+    .then(res => res.json()) 
+    .then(data => { 
+
+      // update tasks state with the fetched tasks 
+      setTasks(data);
+      console.log("fetched tasks...tasks are", data) }) 
+      .catch(error => { 
+        console.error(error); 
+      }); 
+    }, 
+    []);  */
 
   const handleGoToProfile = () => {
-    const userEmail = location.state.user.email;
 
     fetch(`http://localhost:8080/findUserByEmail/${userEmail}`)
       .then((response) => {
@@ -26,10 +51,40 @@ function Home() {
       });
   };
 
+  const confirmTask = () => {
+
+    let taskData = {
+      title: title,
+      description: description,
+      dueDate: dueDate,
+      priority: priority,
+      category: category,
+      userId: userEmail
+    }    
+    console.log("new task created with taskData: ", taskData)
+
+    // send the data to the backend 
+    fetch(`http://localhost:8080/addTask`, {
+        method: 'POST',
+        body: JSON.stringify(taskData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => {
+      res.json()
+      console.log("task sent to backend with taskData ", taskData)
+      setShowTaskForm(false)
+      setTitle("")
+      setDescription("")
+      setDueDate("")
+      setPriority("")
+      setCategory("")
+    })
+  }
   const addTask = (newTask) => {
-    setTasks([...tasks, newTask]);
-    // Here you would also send a request to add the task to the backend
-  };
+    setShowTaskForm(true) 
+    }
 
   const removeTask = (taskIndex) => {
     const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
@@ -43,16 +98,39 @@ function Home() {
       <p>Welcome to the application!</p>
       <button onClick={handleGoToProfile}>View Profile</button>
 
-      <div>
+
+
+      <div className="tasks-container">
         <h2>Your Tasks</h2>
         <ul>
-          {tasks.map((task, index) => (
-            <li key={index}>
-              {task} <button onClick={() => removeTask(index)}>Remove</button>
-            </li>
-          ))}
+            {Array.isArray(tasks) && tasks.map((task, index) => (
+              <li key={index}>
+                <div className="task">
+                  <h3>{task.title}</h3>
+                  <p>{task.description}</p>
+                  <p>Due date: {task.dueDate}</p>
+                  <p>Priority: {task.priority}</p>
+                  <p>Category: {task.category}</p>
+                </div>
+                <button onClick={() => removeTask(index)}>Remove</button>
+              </li>
+            ))}
         </ul>
         <button onClick={() => addTask('New Task')}>Add Task</button>
+        
+        { showTaskForm &&    
+          <div>  
+          <AddTaskForm 
+            title={title} setTitle={setTitle}
+            description={description} setDescription={setDescription}
+            dueDate={dueDate} setDueDate={setDueDate}
+            priority={priority} setPriority={setPriority}
+            category={category} setCategory={setCategory}
+            />
+          <button onClick={() => confirmTask()}>Create</button>
+          </div>
+        }
+        
       </div>
     </div>
   );
