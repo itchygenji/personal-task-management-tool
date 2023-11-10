@@ -19,7 +19,7 @@ function Home(props) {
   const userId = location.state.user.email;
   const userEmail = location.state.user.email;
 
-/*   useEffect(() => { 
+   useEffect(() => { 
     // load tasks from database 
     fetch(`http://localhost:8080/findTasksByUserId/${userId}`) 
     .then(res => res.json()) 
@@ -31,8 +31,7 @@ function Home(props) {
       .catch(error => { 
         console.error(error); 
       }); 
-    }, 
-    []);  */
+    });  
 
   const handleGoToProfile = () => {
 
@@ -84,7 +83,7 @@ function Home(props) {
   }
   const addTask = (newTask) => {
     setShowTaskForm(true) 
-    }
+  }
 
   const removeTask = (taskIndex) => {
     const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
