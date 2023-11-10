@@ -41,7 +41,7 @@ function Home(props) {
     let taskData = {
       title: title,
       description: description,
-      dueDate: dueDate,
+      dueDate: dueDate.format('MM/DD/YYYY'),
       priority: priority,
       category: category,
       userId: userEmail
