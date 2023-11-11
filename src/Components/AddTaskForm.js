@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -45,13 +49,21 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 </DemoContainer>
               </LocalizationProvider>
               <br/>
-              <TextField 
-                id="outlined-basic" 
-                label="Priority" 
-                variant="outlined" 
-                value={priority}
-                onChange={e => setPriority(e.target.value)}
-              />
+              <Box sx={{ minWidth: 120 }}>
+                  <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={priority}
+                    label="Priority"
+                    onChange={e => setPriority(e.target.value)}
+                  >
+                    <MenuItem value={"Low"}>Low</MenuItem>
+                    <MenuItem value={"Medium"}>Medium</MenuItem>
+                    <MenuItem value={"high"}>High</MenuItem>
+                  </Select>
+              </Box>
+
               <br/>
               <TextField 
                 id="outlined-basic" 
@@ -59,8 +71,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 variant="outlined" 
                 value={category}
                 onChange={e => setCategory(e.target.value)}
-              />
-              
+              /> 
             </Box>
         </div>
     )
