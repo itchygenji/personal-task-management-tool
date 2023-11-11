@@ -34,7 +34,7 @@ function Home(props) {
     }); 
 
     }, 
-    [updateTasksView]);
+    [updateTasksView, userEmail]);
 
   const handleGoToProfile = () => {
 

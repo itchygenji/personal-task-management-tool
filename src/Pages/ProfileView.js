@@ -1,16 +1,24 @@
-
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import ReturnHomeButton from '../returnHome'; 
+import { useLocation, useNavigate } from 'react-router-dom';
+import { googleLogout } from '@react-oauth/google';
+import ReturnHomeButton from '../returnHome';
 
 function ProfileView() {
   const location = useLocation();
-  const user = location.state || {}; 
+  const navigate = useNavigate();
+  const user = location.state || {};
   const { email, fullName, phoneNum, address, city, state, zipCode } = user;
+
+  // Function to handle the logout process
+  const handleLogout = () => {
+    googleLogout();
+    navigate('/login');
+  };
 
   return (
     <div>
-      <ReturnHomeButton user={user} /> {/* Pass the user data to ReturnHomeButton */}
+      <ReturnHomeButton user={user} />
+      <button onClick={handleLogout}>Logout</button> {/* Logout button */}
       <h3>Your Profile</h3>
       <p><strong>Email:</strong> {email}</p>
       <p><strong>Name:</strong> {fullName}</p>
