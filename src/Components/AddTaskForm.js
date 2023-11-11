@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,7 +12,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
 function AddTaskForm({ title, description, dueDate, priority, category, setTitle, setDescription, setDueDate, setPriority, setCategory }) {
     
-  return(
+  return (
         <div className="add-task">
             <Box
             component="form"
@@ -22,6 +22,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
             noValidate
             autoComplete="off"
             >
+              {/* Title */}
               <TextField
                 required
                 id="outlined-required"
@@ -31,6 +32,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 onChange={e => setTitle(e.target.value)}
               />
               <br/>
+              {/* Description */}
               <TextField
                 id="outlined-multiline-static"
                 label="Description"
@@ -40,6 +42,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 onChange={e => setDescription(e.target.value)}
               />
               <br/>
+              {/* Date Picker */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                   <DatePicker label="Date Due" 
@@ -49,32 +52,40 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 </DemoContainer>
               </LocalizationProvider>
               <br/>
+              {/* Priority */}
               <Box sx={{ minWidth: 120 }}>
-                  <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                  <InputLabel id="priority-select-label">Priority</InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="priority-select-label"
+                    id="priority-select"
                     value={priority}
                     label="Priority"
                     onChange={e => setPriority(e.target.value)}
                   >
                     <MenuItem value={"Low"}>Low</MenuItem>
                     <MenuItem value={"Medium"}>Medium</MenuItem>
-                    <MenuItem value={"high"}>High</MenuItem>
+                    <MenuItem value={"High"}>High</MenuItem>
                   </Select>
               </Box>
-
               <br/>
-              <TextField 
-                id="outlined-basic" 
-                label="Category" 
-                variant="outlined" 
-                value={category}
-                onChange={e => setCategory(e.target.value)}
-              /> 
+              {/* Category */}
+              <Box sx={{ minWidth: 120 }}>
+                <InputLabel id="category-select-label">Category</InputLabel>
+                <Select
+                  labelId="category-select-label"
+                  id="category-select"
+                  value={category}
+                  label="Category"
+                  onChange={e => setCategory(e.target.value)}
+                >
+                  <MenuItem value={"Professional"}>Professional</MenuItem>
+                  <MenuItem value={"Academic"}>Academic</MenuItem>
+                  <MenuItem value={"Leisure"}>Leisure</MenuItem>
+                </Select>
+              </Box>
             </Box>
         </div>
     )
 }
 
-export default AddTaskForm
+export default AddTaskForm;
