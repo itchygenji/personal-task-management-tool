@@ -91,7 +91,7 @@ function Home(props) {
   }
 
   const removeTask = (taskIndex) => {
-    
+
     //Just  delete from DB and page will auto update
     //const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
     //setTasks(updatedTasks);
@@ -103,26 +103,9 @@ function Home(props) {
       <h1>Hello, {location.state.user.given_name}</h1>
       <p>Welcome to the application!</p>
       <button onClick={handleGoToProfile}>View Profile</button>
-
-      <div className="tasks-container">
-        <h2>Your Tasks</h2>
-        <ul>
-            {tasks.map((task, index) => (
-              <li key={index}>
-                <div className="task">
-                  <h3>{task.title}</h3>
-                  <p>{task.description}</p>
-                  <p>Due date: {task.dueDate}</p>
-                  <p>Priority: {task.priority}</p>
-                  <p>Category: {task.category}</p>
-                </div>
-                <button onClick={() => removeTask(index)}>Remove</button>
-              </li>
-            ))}
-        </ul>
-        <button onClick={() => addTask('New Task')}>Add Task</button>
-        
-        { showTaskForm &&    
+      <h2>Your Tasks</h2>
+      <button onClick={() => addTask('New Task')}>Add Task</button>
+      { showTaskForm &&    
           <div>  
           <AddTaskForm 
             title={title} setTitle={setTitle}
@@ -134,6 +117,26 @@ function Home(props) {
           <button onClick={() => confirmTask()}>Create</button>
           </div>
         }
+      <div className="tasks-container">
+        
+        
+          {tasks.map((task, index) => (
+            <div className='task-button-group'>
+              <div className="task" key={index}>
+                <h3>{task.title}</h3>
+                <p>{task.description}</p>
+                <p>Due date: {task.dueDate}</p>
+                <p>Priority: {task.priority}</p>
+                <p>Category: {task.category}</p>
+              </div>
+              <button>Edit</button>
+              <button onClick={() => removeTask(index)}>Remove</button>
+            </div>
+          ))}
+        
+        
+        
+       
         
       </div>
     </div>
