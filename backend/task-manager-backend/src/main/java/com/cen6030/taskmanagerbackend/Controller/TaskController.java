@@ -4,7 +4,8 @@ import com.cen6030.taskmanagerbackend.Model.Task;
 import com.cen6030.taskmanagerbackend.Model.User;
 import com.cen6030.taskmanagerbackend.Repository.TaskRepo;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,9 +30,20 @@ public class TaskController {
         return task;
     }
 
+     
     @GetMapping("/findTasksByUserId/{userId}")
-    public Optional<Task> findTasksByUserId(@PathVariable("userId") String userId){
-        return taskRepo.findById(userId);
+    public List<Task> findTasksByUserId(@PathVariable("userId") String userId){
+        List<Task> test = taskRepo.findAll();
+        List<Task> tasks = new ArrayList<Task>();
+
+        for(Task task : test){
+            if(task.getUserId().equals(userId)){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+        
 
     }
+ 
 }

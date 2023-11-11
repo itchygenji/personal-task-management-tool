@@ -12,26 +12,29 @@ function Home(props) {
   const [dueDate, setDueDate] = useState("")
   const [priority, setPriority] = useState("")
   const [category, setCategory] = useState("")
-  
+  const [updateTasksView, setUpdateTasksView] = useState(false)
   
   const location = useLocation();
   const navigate = useNavigate();
-  const userId = location.state.user.email;
   const userEmail = location.state.user.email;
 
-   useEffect(() => { 
+  useEffect(() => { 
     // load tasks from database 
-    fetch(`http://localhost:8080/findTasksByUserId/${userId}`) 
+    fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
     .then(data => { 
-
       // update tasks state with the fetched tasks 
-      setTasks(data);
-      console.log("fetched tasks...tasks are", data) }) 
+
+      console.log(...data)
+      
+      setTasks([...data])
+    }) 
       .catch(error => { 
         console.error(error); 
-      }); 
-    });  
+    }); 
+
+    }, 
+    [updateTasksView]);
 
   const handleGoToProfile = () => {
 
@@ -73,12 +76,14 @@ function Home(props) {
     .then(res => {
       res.json()
       console.log("task sent to backend with taskData ", taskData)
+
       setShowTaskForm(false)
       setTitle("")
       setDescription("")
       setDueDate("")
       setPriority("")
       setCategory("")
+      setUpdateTasksView(!updateTasksView)
     })
   }
   const addTask = (newTask) => {
@@ -86,8 +91,10 @@ function Home(props) {
   }
 
   const removeTask = (taskIndex) => {
-    const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
-    setTasks(updatedTasks);
+    
+    //Just  delete from DB and page will auto update
+    //const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
+    //setTasks(updatedTasks);
     // Similarly, send a request to remove the task from the backend
   };
 
@@ -97,12 +104,10 @@ function Home(props) {
       <p>Welcome to the application!</p>
       <button onClick={handleGoToProfile}>View Profile</button>
 
-
-
       <div className="tasks-container">
         <h2>Your Tasks</h2>
         <ul>
-            {Array.isArray(tasks) && tasks.map((task, index) => (
+            {tasks.map((task, index) => (
               <li key={index}>
                 <div className="task">
                   <h3>{task.title}</h3>
