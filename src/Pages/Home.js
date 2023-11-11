@@ -135,8 +135,8 @@ function Home(props) {
                 <p>Priority: {task.priority}</p>
                 <p>Category: {task.category}</p>
               </div>
-              <button>Edit</button>
-              <button onClick={() => removeTask(index)}>Remove</button>
+              <button className='edit-button'>Edit</button>
+              <button className='remove-button' onClick={() => removeTask(index)}>Remove</button>
             </div>
           ))}
         
