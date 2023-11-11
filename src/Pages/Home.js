@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { googleLogout } from '@react-oauth/google';
 import AddTaskForm from '../Components/AddTaskForm';
 
 function Home(props) {
@@ -98,10 +98,16 @@ function Home(props) {
     // Similarly, send a request to remove the task from the backend
   };
 
+  const handleLogout = () => {
+    googleLogout(); // Corrected function call
+    navigate('/login');
+  };
+
   return (
     <div className='home'>
       <h1>Hello, {location.state.user.given_name}</h1>
       <p>Welcome to the application!</p>
+      <button onClick={handleLogout}>Logout</button>
       <button onClick={handleGoToProfile}>View Profile</button>
       <h2>Your Tasks</h2>
       <button onClick={() => addTask('New Task')}>Add Task</button>

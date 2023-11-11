@@ -1,15 +1,16 @@
+
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import ReturnHomeButton from '../returnHome'; 
 
 function ProfileView() {
   const location = useLocation();
-  const user = location.state || {};
-
-  // Note: Destructure the user object carefully depending on the actual structure of the user data
+  const user = location.state || {}; 
   const { email, fullName, phoneNum, address, city, state, zipCode } = user;
 
   return (
     <div>
+      <ReturnHomeButton user={user} /> {/* Pass the user data to ReturnHomeButton */}
       <h3>Your Profile</h3>
       <p><strong>Email:</strong> {email}</p>
       <p><strong>Name:</strong> {fullName}</p>
