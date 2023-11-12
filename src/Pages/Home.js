@@ -46,6 +46,14 @@ function Home(props) {
   };
 
   const confirmTask = () => {
+    // validate title before confirming the task
+    const titleRegex = /.{1,}/;
+    const titleError = "Error: Title is required.";
+    if (!titleRegex.test(title)) {
+      alert(titleError);
+      return;
+    }
+
     let taskData = {
       title: title,
       description: description,
