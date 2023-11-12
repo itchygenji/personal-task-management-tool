@@ -1,43 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import '../css/Home.css'
+import '../css/Home.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import AddTaskForm from '../Components/AddTaskForm';
 
 function Home(props) {
-  const [tasks, setTasks] = useState([]); // Initial empty array of tasks
-  const [showTaskForm, setShowTaskForm] = useState(false)
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [dueDate, setDueDate] = useState("")
-  const [priority, setPriority] = useState("")
-  const [category, setCategory] = useState("")
-  const [updateTasksView, setUpdateTasksView] = useState(false)
+  const [tasks, setTasks] = useState([]);
+  const [showTaskForm, setShowTaskForm] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("");
+  const [category, setCategory] = useState("");
+  const [updateTasksView, setUpdateTasksView] = useState(false);
   
   const location = useLocation();
   const navigate = useNavigate();
   const userEmail = location.state.user.email;
 
-  useEffect(() => { 
-    // load tasks from database 
+  useEffect(() => {
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
-    .then(data => { 
-      // update tasks state with the fetched tasks 
-
-      console.log(...data)
-      
+    .then(data => {
       setTasks([...data])
     }) 
-      .catch(error => { 
-        console.error(error); 
+    .catch(error => { 
+      console.error(error); 
     }); 
-
-    }, 
-    [updateTasksView, userEmail]);
+  }, [updateTasksView, userEmail]);
 
   const handleGoToProfile = () => {
-
     fetch(`http://localhost:8080/findUserByEmail/${userEmail}`)
       .then((response) => {
         if (response.ok) {
@@ -54,7 +46,6 @@ function Home(props) {
   };
 
   const confirmTask = () => {
-
     let taskData = {
       title: title,
       description: description,
@@ -62,10 +53,7 @@ function Home(props) {
       priority: priority,
       category: category,
       userId: userEmail
-    }    
-    console.log("new task created with taskData: ", taskData)
-
-    // send the data to the backend 
+    };
     fetch(`http://localhost:8080/addTask`, {
         method: 'POST',
         body: JSON.stringify(taskData),
@@ -74,32 +62,35 @@ function Home(props) {
         }
     })
     .then(res => {
-      res.json()
-      console.log("task sent to backend with taskData ", taskData)
+      res.json();
+      setShowTaskForm(false);
+      setTitle("");
+      setDescription("");
+      setDueDate("");
+      setPriority("");
+      setCategory("");
+      setUpdateTasksView(!updateTasksView);
+    });
+  };
 
-      setShowTaskForm(false)
-      setTitle("")
-      setDescription("")
-      setDueDate("")
-      setPriority("")
-      setCategory("")
-      setUpdateTasksView(!updateTasksView)
+  const addTask = () => {
+    setShowTaskForm(true);
+  };
+
+  const removeTask = (taskId) => {
+    fetch(`http://localhost:8080/deleteTask/${taskId}`, {
+        method: 'DELETE'
     })
-  }
-  const addTask = (newTask) => {
-    setShowTaskForm(true) 
-  }
-
-  const removeTask = (taskIndex) => {
-
-    //Just  delete from DB and page will auto update
-    //const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
-    //setTasks(updatedTasks);
-    // Similarly, send a request to remove the task from the backend
+    .then(() => {
+      setUpdateTasksView(!updateTasksView); // Refresh the tasks list
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
   };
 
   const handleLogout = () => {
-    googleLogout(); // Corrected function call
+    googleLogout();
     navigate('/login');
   };
 
@@ -110,40 +101,35 @@ function Home(props) {
       <button onClick={handleLogout}>Logout</button>
       <button onClick={handleGoToProfile}>View Profile</button>
       <h2>Your Tasks</h2>
-      <button onClick={() => addTask('New Task')}>Add Task</button>
-      { showTaskForm &&    
-          <div>  
+      <button onClick={addTask}>Add Task</button>
+      {showTaskForm &&    
+        <div>  
           <AddTaskForm 
             title={title} setTitle={setTitle}
             description={description} setDescription={setDescription}
             dueDate={dueDate} setDueDate={setDueDate}
             priority={priority} setPriority={setPriority}
             category={category} setCategory={setCategory}
-            />
-          <button onClick={() => confirmTask()}>Create</button>
-          </div>
-        }
+          />
+          <button onClick={confirmTask}>Create</button>
+        </div>
+      }
       <div className="tasks-container">
-        
-        
-          {tasks.map((task, index) => (
-            <div className='task-button-group'>
-              <div className="task" key={index}>
-                <h3>{task.title}</h3>
-                <p>{task.description}</p>
-                <p>Due date: {task.dueDate}</p>
-                <p>Priority: {task.priority}</p>
-                <p>Category: {task.category}</p>
-              </div>
-              <button className='edit-button'>Edit</button>
-              <button className='remove-button' onClick={() => removeTask(index)}>Remove</button>
+        {tasks.map((task, index) => (
+          <div className='task-button-group' key={task.id || index}>
+            <div className="task">
+              <h3>{task.title}</h3>
+              <p>{task.description}</p>
+              <p>Due date: {task.dueDate}</p>
+              <p>Priority: {task.priority}</p>
+              <p>Category: {task.category}</p>
             </div>
-          ))}
-        
-        
-        
-       
-        
+            {/* Edit button placeholder */}
+            <button className='edit-button'>Edit</button>
+            {/* Delete button with task.id passed to removeTask */}
+            <button className='remove-button' onClick={() => removeTask(task.id)}>Remove</button>
+          </div>
+        ))}
       </div>
     </div>
   );
