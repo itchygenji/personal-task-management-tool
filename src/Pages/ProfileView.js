@@ -7,17 +7,13 @@ function ProfileView() {
   const location = useLocation();
   const navigate = useNavigate();
   const user = location.state || {};
-  const { email, fullName, phoneNum, address, city, state, zipCode } = user;
+  const { email, fullName, phoneNum, address, city, state, zipCode, given_name } = user;
 
   // Function to handle the logout process
   const handleLogout = () => {
-    // Display confirmation dialog
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
-  
-    if (confirmLogout) {
-      googleLogout();
-      navigate('/login');
-    }
+    googleLogout();
+    navigate('/login');
+    
   };
 
   // make new variables for editable fields
@@ -63,7 +59,6 @@ function ProfileView() {
           user.city = newCity;
           user.state = newState;
           user.zipCode = newZipCode;
-          alert("Successfully updated profile.");
         } else {
           throw new Error("Error from PUT: ", res.statusText);
         }

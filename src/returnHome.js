@@ -6,6 +6,7 @@ const ReturnHomeButton = ({ user }) => {
   let navigate = useNavigate();
 
   const handleGoHome = () => {
+
     navigate('/home', { state: { user } });
   };
 

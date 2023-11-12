@@ -16,7 +16,10 @@ function Home(props) {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const userEmail = location.state.user.email;
+  const userEmail = location.state.user.email
+  const userName = location.state.user.given_name
+
+  console.log(userName)
 
   useEffect(() => {
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
@@ -38,6 +41,7 @@ function Home(props) {
         throw new Error('Network response was not ok.');
       })
       .then((userData) => {
+        userData.given_name = location.state.user.given_name
         navigate('/profile-view', { state: userData });
       })
       .catch((error) => {
@@ -135,7 +139,7 @@ function Home(props) {
   return (
     <div className='home'>
       <div className='banner'>
-        <h1>Hello, {location.state.user.given_name}</h1>
+        <h1>Hello, {userName}</h1>
         <button className='view-profile-button' onClick={handleGoToProfile}>View Profile</button>
         <button className='logout-button'onClick={handleLogout}>Logout</button>
       </div>
