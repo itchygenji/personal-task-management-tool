@@ -57,11 +57,21 @@ function Home(props) {
     let taskData = {
       title: title,
       description: description,
-      dueDate: dueDate.format('MM/DD/YYYY'),
       priority: priority,
       category: category,
       userId: userEmail
     };
+
+    // define a default date in case of error
+    let defaultDate = '01/01/2099';
+    try {
+      // try to format the due date
+      taskData.dueDate = dueDate.format('MM/DD/YYYY');
+    } catch (error) {
+      // if an error occurs, use the default date
+      taskData.dueDate = defaultDate;
+    }
+    
     fetch(`http://localhost:8080/addTask`, {
         method: 'POST',
         body: JSON.stringify(taskData),
