@@ -96,16 +96,23 @@ function Home(props) {
   };
 
   const removeTask = (taskId) => {
-    fetch(`http://localhost:8080/deleteTask/${taskId}`, {
+    // Display a confirmation dialog
+    const isConfirmed = window.confirm("Are you sure you want to delete this task?");
+  
+    // Proceed with deletion only if the user confirms
+    if (isConfirmed) {
+      fetch(`http://localhost:8080/deleteTask/${taskId}`, {
         method: 'DELETE'
-    })
-    .then(() => {
-      setUpdateTasksView(!updateTasksView); // Refresh the tasks list
-    })
-    .catch(error => {
+      })
+      .then(() => {
+        setUpdateTasksView(!updateTasksView); // Refresh the tasks list
+      })
+      .catch(error => {
         console.error('Error:', error);
-    });
+      });
+    }
   };
+  
 
   const handleLogout = () => {
     // Display confirmation dialog
