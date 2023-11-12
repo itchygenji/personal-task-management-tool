@@ -37,25 +37,26 @@ function ProfileView() {
     if (isEditing) {
       try {
 
-        console.log("Calling PUT method for user ", email)
-        console.log("With variables: " , newFullName, newPhoneNum, newAddress, newCity, newState, newZipCode)
-
-        //FIXME this doesn't work
         const res = await fetch(`http://localhost:8080/editUser/${email}`, {
           method: 'PUT',
           body: JSON.stringify({
-            newFullName,
-            newPhoneNum,
-            newAddress,
-            newCity,
-            newState,
-            newZipCode
+            email:user.email,
+            fullName:newFullName,
+            phoneNum:newPhoneNum,
+            address:newAddress,
+            city:newCity,
+            state:newState,
+            zipCode:newZipCode
           }),
           headers: {
             'Content-Type': 'application/json'
           }
         });
         if (res.ok) {
+
+          let text = await res.text();
+          console.log(text)
+
           user.fullName = newFullName;
           user.phoneNum = newPhoneNum;
           user.address = newAddress;
@@ -64,7 +65,7 @@ function ProfileView() {
           user.zipCode = newZipCode;
           alert("Successfully updated profile.");
         } else {
-          throw new Error(res.statusText);
+          throw new Error("Error from PUT: ", res.statusText);
         }
       } catch (error) {
         alert(error);
@@ -74,27 +75,21 @@ function ProfileView() {
     // toggle the editing mode
     setIsEditing(!isEditing);
   };
-
   const handleFullNameChange = (event) => {
     setFullName(event.target.value);
   };
-
   const handlePhoneNumChange = (event) => {
     setPhoneNum(event.target.value);
   };
-
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   };
-
   const handleCityChange = (event) => {
     setCity(event.target.value);
   };
-
   const handleStateChange = (event) => {
     setState(event.target.value);
   };
-
   const handleZipCodeChange = (event) => {
     setZipCode(event.target.value);
   };

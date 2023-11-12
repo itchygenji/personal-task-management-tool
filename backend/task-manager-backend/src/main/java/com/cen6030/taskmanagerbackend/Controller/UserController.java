@@ -35,7 +35,6 @@ public class UserController {
         return repo.findById(email);
     }
 
-    //FIXME this doesn't work
     @PutMapping("/editUser/{email}")
     public String editUser(@PathVariable("email") String email, @RequestBody User user) {
         
@@ -44,9 +43,17 @@ public class UserController {
         if (existingUser.isPresent()) {
 
             // update the user information
-            user.setEmail(email); 
-            repo.save(user); 
-            return "Successfully edited user!";
+            User updatedUser = existingUser.get();
+
+            updatedUser.setFullName(user.getFullName());
+            updatedUser.setPhoneNum(user.getPhoneNum());
+            updatedUser.setAddress(user.getAddress());
+            updatedUser.setCity(user.getCity());
+            updatedUser.setState(user.getState());
+            updatedUser.setZipCode(user.getZipCode());
+
+            repo.save(updatedUser); 
+            return "Successfully edited user! User is now: " + updatedUser.getFullName() + " and should be " + user.getFullName();
         } else {
             return "User not found.";
         }
