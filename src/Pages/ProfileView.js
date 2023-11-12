@@ -11,8 +11,13 @@ function ProfileView() {
 
   // Function to handle the logout process
   const handleLogout = () => {
-    googleLogout();
-    navigate('/login');
+    // Display confirmation dialog
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+  
+    if (confirmLogout) {
+      googleLogout();
+      navigate('/login');
+    }
   };
 
   return (

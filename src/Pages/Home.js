@@ -73,6 +73,16 @@ function Home(props) {
     });
   };
 
+  const cancelAddTask = () => {
+    setShowTaskForm(false);
+    // Reset the states related to the task form
+    setTitle("");
+    setDescription("");
+    setDueDate("");
+    setPriority("");
+    setCategory("");
+  };
+
   const addTask = () => {
     setShowTaskForm(true);
   };
@@ -90,8 +100,13 @@ function Home(props) {
   };
 
   const handleLogout = () => {
-    googleLogout();
-    navigate('/login');
+    // Display confirmation dialog
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+  
+    if (confirmLogout) {
+      googleLogout();
+      navigate('/login');
+    }
   };
 
   return (
@@ -110,8 +125,12 @@ function Home(props) {
             dueDate={dueDate} setDueDate={setDueDate}
             priority={priority} setPriority={setPriority}
             category={category} setCategory={setCategory}
+            onCancel={cancelAddTask}
           />
-          <button onClick={confirmTask}>Create</button>
+          <div style={{ display: 'flex', marginTop: '10px' }}>
+            <button onClick={confirmTask} style={{ marginRight: '10px' }}>Create</button>
+            <button onClick={cancelAddTask}>Cancel</button>
+          </div>
         </div>
       }
       <div className="tasks-container">
