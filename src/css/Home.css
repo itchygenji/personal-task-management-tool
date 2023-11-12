@@ -31,10 +31,46 @@ html,body{
     filter: drop-shadow(7px 1px 6px #000000);
 
 }
+.banner{
+    text-align: center;
+    color: #dbd8e3;
+    background-color: #282829;
+    border-bottom: #000000 solid 3px;
+    padding-top: 1px;
+    padding-bottom: 10px;
+}
+.view-profile-button{
+    margin-right: 10px;
+}
+.tasks-container-header{
+    padding-left: 50px;
+    margin-bottom: 50px;
+}
+
+.create-task-form{
+    position: absolute;
+    margin-left: 40px;
+    background-color: #fff;
+    border: black solid 2px;
+}
+.task-form-buttons{
+    margin-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.create-button{
+    margin-right: 10px;
+}
 h3{
     border-bottom: solid black 1px;
 }
-
+.empty-tasks-p{
+    font-size: 24px;
+    font-weight: 600;
+}
+.add-task-button{
+    position: absolute;
+}
 .remove-button {
     background-color: #fbeee0;
     border: 2px solid #F35B59;
@@ -44,7 +80,7 @@ h3{
     cursor: pointer;
     display: inline;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 30px;
     width: 72px;
     text-align: center;
@@ -85,7 +121,7 @@ h3{
   touch-action: manipulation;
   padding: 0 9px;
   margin-right: 10px;
-  margin-left: 10px;
+
 }
 
 .edit-button:hover {
@@ -95,5 +131,8 @@ h3{
 .edit-button:active {
   box-shadow: #422800 2px 2px 0 0;
   transform: translate(2px, 2px);
+}
+.edit-remove-buttons{
+    text-align: center;
 }
 

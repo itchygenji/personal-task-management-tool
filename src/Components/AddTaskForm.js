@@ -10,10 +10,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
-function AddTaskForm({ title, description, dueDate, priority, category, setTitle, setDescription, setDueDate, setPriority, setCategory, onCancel }) {
+function AddTaskForm({ title, description, dueDate, priority, category, setTitle, setDescription, 
+  setDueDate, setPriority, setCategory, onCancel, confirmTask, cancelAddTask}) {
     
   return (
-        <div className="add-task">
+        <div >
             <Box
             component="form"
             sx={{
@@ -53,7 +54,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
               </LocalizationProvider>
               <br/>
               {/* Priority */}
-              <Box sx={{ minWidth: 120 }}>
+              <Box sx={{ minWidth: 120, marginLeft: 1}}>
                   <InputLabel id="priority-select-label">Priority</InputLabel>
                   <Select
                     labelId="priority-select-label"
@@ -69,7 +70,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
               </Box>
               <br/>
               {/* Category */}
-              <Box sx={{ minWidth: 120 }}>
+              <Box sx={{ minWidth: 120 , marginLeft: 1}}>
                 <InputLabel id="category-select-label">Category</InputLabel>
                 <Select
                   labelId="category-select-label"
@@ -84,6 +85,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 </Select>
               </Box>
             </Box>
+
         </div>
     )
 }

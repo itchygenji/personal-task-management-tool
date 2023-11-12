@@ -89,7 +89,7 @@ function Home(props) {
       setCategory("");
       setUpdateTasksView(!updateTasksView);
     });
-  };
+  }
 
   const cancelAddTask = () => {
     setShowTaskForm(false);
@@ -126,24 +126,27 @@ function Home(props) {
 
   const handleLogout = () => {
     // Display confirmation dialog
-    const confirmLogout = window.confirm("Are you sure you want to log out?");
+
+    googleLogout();
+    navigate('/login');
   
-    if (confirmLogout) {
-      googleLogout();
-      navigate('/login');
-    }
   };
 
   return (
     <div className='home'>
-      <h1>Hello, {location.state.user.given_name}</h1>
-      <p>Welcome to the application!</p>
-      <button onClick={handleLogout}>Logout</button>
-      <button onClick={handleGoToProfile}>View Profile</button>
-      <h2>Your Tasks</h2>
-      <button onClick={addTask}>Add Task</button>
+      <div className='banner'>
+        <h1>Hello, {location.state.user.given_name}</h1>
+        <button className='view-profile-button' onClick={handleGoToProfile}>View Profile</button>
+        <button className='logout-button'onClick={handleLogout}>Logout</button>
+      </div>
+      <div className='tasks-container-header'>
+        <h2>Your Tasks</h2>
+        {!showTaskForm &&
+          <button className='add-task-button' onClick={addTask}>Add Task</button>
+        }
+      </div>  
       {showTaskForm &&    
-        <div>  
+        <div className='create-task-form'>  
           <AddTaskForm 
             title={title} setTitle={setTitle}
             description={description} setDescription={setDescription}
@@ -151,14 +154,19 @@ function Home(props) {
             priority={priority} setPriority={setPriority}
             category={category} setCategory={setCategory}
             onCancel={cancelAddTask}
+            confirmTask={confirmTask}
+            cancelAddTask={cancelAddTask}
           />
-          <div style={{ display: 'flex', marginTop: '10px' }}>
-            <button onClick={confirmTask} style={{ marginRight: '10px' }}>Create</button>
-            <button onClick={cancelAddTask}>Cancel</button>
+          <div className='task-form-buttons'>
+            <button className='create-button' onClick={confirmTask}>Create</button>
+            <button className='task-button' onClick={cancelAddTask}>Cancel</button>
           </div>
         </div>
       }
       <div className="tasks-container">
+        {tasks.length === 0 &&
+        <p className='empty-tasks-p'>No tasks created yet.</p>
+        }
         {tasks.map((task, index) => (
           <div className='task-button-group' key={task.id || index}>
             <div className="task">
@@ -168,10 +176,12 @@ function Home(props) {
               <p>Priority: {task.priority}</p>
               <p>Category: {task.category}</p>
             </div>
-            {/* Edit button placeholder */}
-            <button className='edit-button'>Edit</button>
-            {/* Delete button with task.id passed to removeTask */}
-            <button className='remove-button' onClick={() => removeTask(task.id)}>Remove</button>
+            <div className='edit-remove-buttons'>
+              {/* Edit button placeholder */}
+              <button className='edit-button'>Edit</button>
+              {/* Delete button with task.id passed to removeTask */}
+              <button className='remove-button' onClick={() => removeTask(task.id)}>Remove</button>
+            </div>
           </div>
         ))}
       </div>
