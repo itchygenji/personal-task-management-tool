@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TaskRepo extends MongoRepository<Task, String>{
-
-    public Task findTasksByUserId(String userId);
+public interface TaskRepo extends MongoRepository<Task, String> {
+    List<Task> findTasksByUserId(String userId);
 }
+
