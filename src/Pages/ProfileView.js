@@ -7,7 +7,7 @@ function ProfileView() {
   const location = useLocation();
   const navigate = useNavigate();
   const user = location.state || {};
-  const { email, fullName, phoneNum, address, city, state, zipCode, given_name } = user;
+  const { email, fullName, phoneNum, address, city, state, zipCode } = user;
 
   // Function to handle the logout process
   const handleLogout = () => {
@@ -100,12 +100,12 @@ function ProfileView() {
       <button onClick={handleEdit}>{isEditing ? "Save" : "Edit"}</button> {/* Edit/Save button */}
       <h3>Your Profile</h3>
       <p><strong>Email:</strong> {email}</p>
-      <p><strong>Name:</strong>  {isEditing ? <input type="text" defaultValue={fullName} onChange={handleFullNameChange} /> : fullName}</p>
-      <p><strong>Phone:</strong> {isEditing ? <input type="text" defaultValue={phoneNum} onChange={handlePhoneNumChange} /> : phoneNum}</p>
-      <p><strong>Address:</strong> {isEditing ? <><input type="text" defaultValue={address} onChange={handleAddressChange} />, 
-                                                  <input type="text" defaultValue={city} onChange={handleCityChange} />, 
-                                                  <input type="text" defaultValue={state} onChange={handleStateChange} />, 
-                                                  <input type="text" defaultValue={zipCode} onChange={handleZipCodeChange} />
+      <p><strong>Name:</strong>  {isEditing ? <input type="text" defaultValue={fullName} onChange={handleFullNameChange} placeholder='Full Name'/> : fullName}</p>
+      <p><strong>Phone:</strong> {isEditing ? <input type="text" defaultValue={phoneNum} onChange={handlePhoneNumChange} placeholder='Phone Number'/> : phoneNum}</p>
+      <p><strong>Address:</strong> {isEditing ? <><input type="text" defaultValue={address} onChange={handleAddressChange} placeholder='Street Address'/>, 
+                                                  <input type="text" defaultValue={city} onChange={handleCityChange} placeholder='City'/>, 
+                                                  <input type="text" defaultValue={state} onChange={handleStateChange} placeholder='State Abbreviation'/>, 
+                                                  <input type="text" defaultValue={zipCode} onChange={handleZipCodeChange} placeholder='Zip Code'/>
                                                   </> : `${address}, ${city}, ${state}, ${zipCode}`}</p>
     </div>
   );
