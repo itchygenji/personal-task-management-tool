@@ -24,7 +24,6 @@ function Home(props) {
   const userName = location.state.user.given_name
 
   useEffect(() => {
-    console.log(title)
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
     .then(data => {
@@ -33,7 +32,7 @@ function Home(props) {
     .catch(error => { 
       console.error(error); 
     }); 
-  }, [updateTasksView, userEmail, title]);
+  }, [updateTasksView, userEmail]);
 
   const handleGoToProfile = () => {
     fetch(`http://localhost:8080/findUserByEmail/${userEmail}`)
