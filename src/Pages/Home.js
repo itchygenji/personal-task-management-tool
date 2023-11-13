@@ -19,8 +19,6 @@ function Home(props) {
   const userEmail = location.state.user.email
   const userName = location.state.user.given_name
 
-  console.log(userName)
-
   useEffect(() => {
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
@@ -143,8 +141,10 @@ function Home(props) {
     <div className='home'>
       <div className='banner'>
         <h1>Hello, {userName}</h1>
-        <button className='view-profile-button' onClick={handleGoToProfile}>View Profile</button>
-        <button className='logout-button'onClick={handleLogout}>Logout</button>
+        <div className='banner-buttons'>
+          <button className='view-profile-button' onClick={handleGoToProfile}>View Profile</button>
+          <button className='logout-button'onClick={handleLogout}>Logout</button>
+        </div>
       </div>
       <div className='tasks-container-header'>
         <h2>Your Tasks</h2>
