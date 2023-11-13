@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css/Home.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import AddTaskForm from '../Components/AddTaskForm';
+import EditTaskForm from '../Components/EditTaskFrom';
 
 function Home(props) {
   const [tasks, setTasks] = useState([]);
@@ -13,13 +14,17 @@ function Home(props) {
   const [priority, setPriority] = useState("");
   const [category, setCategory] = useState("");
   const [updateTasksView, setUpdateTasksView] = useState(false);
-  
+  const [editMode, setEditMode] = useState(false)
+  const [editedTask, setEditedTask] = useState({})
+  const taskRefs = useRef([null]);
   const location = useLocation();
   const navigate = useNavigate();
+
   const userEmail = location.state.user.email
   const userName = location.state.user.given_name
 
   useEffect(() => {
+    console.log(title)
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
     .then(data => {
@@ -28,7 +33,7 @@ function Home(props) {
     .catch(error => { 
       console.error(error); 
     }); 
-  }, [updateTasksView, userEmail]);
+  }, [updateTasksView, userEmail, title]);
 
   const handleGoToProfile = () => {
     fetch(`http://localhost:8080/findUserByEmail/${userEmail}`)
@@ -125,6 +130,22 @@ function Home(props) {
     }
   };
   
+  const editTask = (task) => {
+    setEditMode(true)
+    console.log(task.title)
+    setEditedTask({
+      title: task.title,
+      description: task.description,
+      dueDate: task.dueDate,
+      priority: task.priority,
+      category: task.category
+
+    })
+  }
+  const saveEditedTask = () => {
+    //save new task to db
+    //anything typed in edit form will be save to the states in home.js (title,description,dueDate,category,priority)
+  }
 
   // Function to handle the logout process
   const handleLogout = () => {
@@ -175,7 +196,9 @@ function Home(props) {
         <p className='empty-tasks-p'>No tasks created yet.</p>
         }
         {tasks.map((task, index) => (
+          
           <div className='task-button-group' key={task.id || index}>
+          
             <div className="task">
               <h3>{task.title}</h3>
               <p>{task.description}</p>
@@ -183,14 +206,31 @@ function Home(props) {
               <p>Priority: {task.priority}</p>
               <p>Category: {task.category}</p>
             </div>
+ 
+          
             <div className='edit-remove-buttons'>
               {/* Edit button placeholder */}
-              <button className='edit-button'>Edit</button>
+              <button className='edit-button' onClick={() => editTask(task)}>Edit</button>
               {/* Delete button with task.id passed to removeTask */}
               <button className='remove-button' onClick={() => removeTask(task.id)}>Remove</button>
             </div>
           </div>
+          
         ))}
+            {editMode &&
+              <div className='edit-task-form'>
+                Edit Task
+              <EditTaskForm 
+                title={editedTask.title} setTitle={setTitle}
+                description={editedTask.description} setDescription={setDescription}
+                dueDate={editedTask.dueDate} setDueDate={setDueDate}
+                priority={editedTask.priority} setPriority={setPriority}
+                category={editedTask.category} setCategory={setCategory}
+              />
+                <button>save</button>
+                <button onClick={() => setEditMode(false)}>cancel</button>
+              </div>
+            }
       </div>
     </div>
   );

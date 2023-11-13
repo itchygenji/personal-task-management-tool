@@ -9,9 +9,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
-function AddTaskForm({ title, description, dueDate, priority, category, setTitle, setDescription, 
-  setDueDate, setPriority, setCategory, onCancel, confirmTask, cancelAddTask}) {
-    
+function EditTaskForm({ title, description, dueDate, priority, category, setTitle, setDescription, 
+    setDueDate, setPriority, setCategory, onCancel, confirmTask, cancelAddTask}) {
+
+        
+
+
   return (
         <div >
             <Box
@@ -27,8 +30,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 required
                 id="outlined-required"
                 label="Title"
-                defaultValue=""
-                value={title}
+                defaultValue={title}
                 onChange={e => setTitle(e.target.value)}
               />
               <br/>
@@ -37,16 +39,15 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 id="outlined-multiline-static"
                 label="Description"
                 multiline
+                defaultValue={description}
                 rows={4}
-                value={description}
                 onChange={e => setDescription(e.target.value)}
               />
               <br/>
               {/* Date Picker */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker label="Date Due" 
-                  value={dueDate}
+                  <DatePicker label="Date Due"
                   onChange={e => setDueDate(e)}
                   />
                 </DemoContainer>
@@ -58,8 +59,8 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                   <Select
                     labelId="priority-select-label"
                     id="priority-select"
-                    value={priority}
                     label="Priority"
+                    defaultValue={priority}
                     onChange={e => setPriority(e.target.value)}
                   >
                     <MenuItem value={"Low"}>Low</MenuItem>
@@ -74,7 +75,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 <Select
                   labelId="category-select-label"
                   id="category-select"
-                  value={category}
+                  defaultValue={category}
                   label="Category"
                   onChange={e => setCategory(e.target.value)}
                 >
@@ -89,4 +90,4 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
     )
 }
 
-export default AddTaskForm;
+export default EditTaskForm;

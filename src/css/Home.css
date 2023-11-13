@@ -57,6 +57,18 @@ html,body{
     background-color: #fff;
     border: black solid 2px;
 }
+.edit-task-form{
+    width: 600px;
+    height: 550px;
+    position:absolute;
+    top: 10%;
+    right: 25%;
+    background-color: #fff;
+    border: black solid 1px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
 .task-form-buttons{
     margin-top: 15px;
     margin-bottom: 10px;
