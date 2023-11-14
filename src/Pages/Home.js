@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
@@ -14,20 +14,20 @@ function Home(props) {
   const [priority, setPriority] = useState("");
   const [category, setCategory] = useState("");
   const [updateTasksView, setUpdateTasksView] = useState(false);
-  const [editMode, setEditMode] = useState(false)
-  const [editedTask, setEditedTask] = useState({})
-  const taskRefs = useRef([null]);
+  const [editMode, setEditMode] = useState(false);
+  const [editedTask, setEditedTask] = useState({});
+  //const taskRefs = useRef([null]);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const userEmail = location.state.user.email
-  const userName = location.state.user.given_name
+  const userEmail = location.state.user.email;
+  const userName = location.state.user.given_name;
 
   useEffect(() => {
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
     .then(data => {
-      setTasks([...data])
+      setTasks([...data]);
     }) 
     .catch(error => { 
       console.error(error); 
@@ -43,7 +43,7 @@ function Home(props) {
         throw new Error('Network response was not ok.');
       })
       .then((userData) => {
-        userData.given_name = location.state.user.given_name
+        userData.given_name = location.state.user.given_name;
         navigate('/profile-view', { state: userData });
       })
       .catch((error) => {
@@ -52,7 +52,6 @@ function Home(props) {
   };
 
   const confirmTask = () => {
-    // validate title before confirming the task
     const titleRegex = /.{1,}/;
     const titleError = "Error: Title is required.";
     if (!titleRegex.test(title)) {
@@ -68,13 +67,10 @@ function Home(props) {
       userId: userEmail
     };
 
-    // define a default date in case of error
     let defaultDate = '01/01/2099';
     try {
-      // try to format the due date
       taskData.dueDate = dueDate.format('MM/DD/YYYY');
     } catch (error) {
-      // if an error occurs, use the default date
       taskData.dueDate = defaultDate;
     }
     
@@ -99,7 +95,6 @@ function Home(props) {
 
   const cancelAddTask = () => {
     setShowTaskForm(false);
-    // Reset the states related to the task form
     setTitle("");
     setDescription("");
     setDueDate("");
@@ -112,16 +107,14 @@ function Home(props) {
   };
 
   const removeTask = (taskId) => {
-    // Display a confirmation dialog
     const isConfirmed = window.confirm("Are you sure you want to delete this task?");
   
-    // Proceed with deletion only if the user confirms
     if (isConfirmed) {
       fetch(`http://localhost:8080/deleteTask/${taskId}`, {
         method: 'DELETE'
       })
       .then(() => {
-        setUpdateTasksView(!updateTasksView); // Refresh the tasks list
+        setUpdateTasksView(!updateTasksView);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -130,25 +123,37 @@ function Home(props) {
   };
   
   const editTask = (task) => {
-    setEditMode(true)
-    console.log(task.title)
-    setEditedTask({
-      title: task.title,
-      description: task.description,
-      dueDate: task.dueDate,
-      priority: task.priority,
-      category: task.category
-
-    })
+    setEditMode(true);
+    setEditedTask(task);
   }
+
   const saveEditedTask = () => {
-    //save new task to db
-    //anything typed in edit form will be save to the states in home.js (title,description,dueDate,category,priority)
-  }
+    const updatedTask = {
+      id: editedTask.id,
+      title,
+      description,
+      dueDate: dueDate.format('MM/DD/YYYY'),
+      priority,
+      category,
+      userId: userEmail
+    };
+  
+    fetch(`http://localhost:8080/updateTask`, {
+      method: 'PUT',
+      body: JSON.stringify(updatedTask),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      setEditMode(false);
+      setUpdateTasksView(!updateTasksView);
+    })
+    .catch(error => console.error('Error:', error));
+  };
 
-  // Function to handle the logout process
   const handleLogout = () => {
-    // Display confirmation dialog
     const confirmLogout = window.confirm("Are you sure you want to log out?");
   
     if (confirmLogout) {
@@ -163,7 +168,7 @@ function Home(props) {
         <h1>Hello, {userName}</h1>
         <div className='banner-buttons'>
           <button className='view-profile-button' onClick={handleGoToProfile}>View Profile</button>
-          <button className='logout-button'onClick={handleLogout}>Logout</button>
+          <button className='logout-button' onClick={handleLogout}>Logout</button>
         </div>
       </div>
       <div className='tasks-container-header'>
@@ -192,12 +197,10 @@ function Home(props) {
       }
       <div className="tasks-container">
         {tasks.length === 0 &&
-        <p className='empty-tasks-p'>No tasks created yet.</p>
+          <p className='empty-tasks-p'>No tasks created yet.</p>
         }
         {tasks.map((task, index) => (
-          
           <div className='task-button-group' key={task.id || index}>
-          
             <div className="task">
               <h3>{task.title}</h3>
               <p>{task.description}</p>
@@ -205,34 +208,30 @@ function Home(props) {
               <p>Priority: {task.priority}</p>
               <p>Category: {task.category}</p>
             </div>
- 
-          
             <div className='edit-remove-buttons'>
-              {/* Edit button placeholder */}
               <button className='edit-button' onClick={() => editTask(task)}>Edit</button>
-              {/* Delete button with task.id passed to removeTask */}
               <button className='remove-button' onClick={() => removeTask(task.id)}>Remove</button>
             </div>
           </div>
-          
         ))}
-            {editMode &&
-              <div className='edit-task-form'>
-                Edit Task
-              <EditTaskForm 
-                title={editedTask.title} setTitle={setTitle}
-                description={editedTask.description} setDescription={setDescription}
-                dueDate={editedTask.dueDate} setDueDate={setDueDate}
-                priority={editedTask.priority} setPriority={setPriority}
-                category={editedTask.category} setCategory={setCategory}
-              />
-                <button>save</button>
-                <button onClick={() => setEditMode(false)}>cancel</button>
-              </div>
-            }
+        {editMode &&
+          <div className='edit-task-form'>
+            Edit Task
+            <EditTaskForm 
+              title={editedTask.title} setTitle={setTitle}
+              description={editedTask.description} setDescription={setDescription}
+              dueDate={editedTask.dueDate} setDueDate={setDueDate}
+              priority={editedTask.priority} setPriority={setPriority}
+              category={editedTask.category} setCategory={setCategory}
+            />
+            <button onClick={saveEditedTask}>Save</button> {/* Updated line */}
+            <button onClick={() => setEditMode(false)}>Cancel</button>
+          </div>
+        }
       </div>
     </div>
   );
 }
 
 export default Home;
+
