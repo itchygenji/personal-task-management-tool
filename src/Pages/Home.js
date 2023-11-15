@@ -16,7 +16,6 @@ function Home(props) {
   const [updateTasksView, setUpdateTasksView] = useState(false);
   const [editMode, setEditMode] = useState(false)
   const [editedTask, setEditedTask] = useState({})
-  const taskRefs = useRef([null]);
   const location = useLocation();
   const navigate = useNavigate();
 
