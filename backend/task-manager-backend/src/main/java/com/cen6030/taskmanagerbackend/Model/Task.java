@@ -19,6 +19,9 @@ public class Task {
     private String dateCreated;
     private String userId;
 
+    //empty string if not in any lists, else this field is the id of the list that contains it
+    private String listId; 
+
     public Task() {
     }
 
@@ -33,6 +36,7 @@ public class Task {
         this.category = category;
         this.dateCreated = dateformatter.format(localDate);
         this.userId = userId;
+        this.listId = "";
     }
 
     // Getters and setters
@@ -99,6 +103,12 @@ public class Task {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+    public String getListId(){
+        return listId;
+    }
+    public void setListId(String listId){
+        this.listId = listId;
     }
 
     @Override
