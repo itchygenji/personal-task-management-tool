@@ -8,6 +8,14 @@ function ProfileView() {
   const navigate = useNavigate();
   const user = location.state || {};
   const { email, fullName, phoneNum, address, city, state, zipCode } = user;
+  
+  const US_STATES = [
+    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 
+    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 
+    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
+    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 
+    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+  ];
 
   // Function to handle the logout process
   const handleLogout = () => {
@@ -101,11 +109,15 @@ function ProfileView() {
       <h3>Your Profile</h3>
       <p><strong>Email:</strong> {email}</p>
       <p><strong>Name:</strong>  {isEditing ? <input type="text" defaultValue={fullName} onChange={handleFullNameChange} placeholder='Full Name'/> : fullName}</p>
-      <p><strong>Phone:</strong> {isEditing ? <input type="text" defaultValue={phoneNum} onChange={handlePhoneNumChange} placeholder='Phone Number'/> : phoneNum}</p>
+      <p><strong>Phone:</strong> {isEditing ? <input type="text" defaultValue={phoneNum} onChange={handlePhoneNumChange} placeholder='Phone Number' maxLength="12"/> : phoneNum}</p>
       <p><strong>Address:</strong> {isEditing ? <><input type="text" defaultValue={address} onChange={handleAddressChange} placeholder='Street Address'/>, 
                                                   <input type="text" defaultValue={city} onChange={handleCityChange} placeholder='City'/>, 
-                                                  <input type="text" defaultValue={state} onChange={handleStateChange} placeholder='State Abbreviation'/>, 
-                                                  <input type="text" defaultValue={zipCode} onChange={handleZipCodeChange} placeholder='Zip Code'/>
+                                                  {/* State Dropdown */}
+                                                  <select defaultValue={state} onChange={handleStateChange} placeholder='State Abbreviation'>
+                                                      <option value="">Select State</option>
+                                                      {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                                                  </select>
+                                                  <input type="text" defaultValue={zipCode} onChange={handleZipCodeChange} placeholder='Zip Code' maxLength="5"/>
                                                   </> : `${address}, ${city}, ${state}, ${zipCode}`}</p>
     </div>
   );
