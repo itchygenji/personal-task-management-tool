@@ -23,11 +23,13 @@ All our meetings were either over the phone or Discord.
 
 ## Sprint Retrospective Meeting
 
-| WHAT WENT WELL | WHAT DIDN’T GO SO WELL | INSIGHTS (up to 3) AND ACTIONS (JUST ONE) |
-|----------------|------------------------|------------------------------------------|
-| All tasks and stories were completed successfully, despite initial struggles with technology. | Challenges in connecting the front end to the back end for task and profile management; time-consuming resolution of a persistent MongoDB bug. | Insight: Lack of experience with technology stack can lead to increased task completion time. <br> Action: Allocate additional time for resolving technical issues and include more hands-on practice with the tech stack. |
-| The team showed resilience and dedication to resolve issues and learn from the experience. | Some team members had difficulties with specific functionalities like adding, editing, or deleting tasks due to unfamiliarity with the stack. | Insight: More experience is needed with full-stack integration. <br> Action: Conduct focused training sessions on full-stack development and troubleshooting. |
-| Despite personal commitments, the team managed to meet the sprint goals. | | Insight: Effective time management and dedication can overcome external schedule pressures. <br> Action: Continue to encourage flexible scheduling and time management best practices among team members. |
+| WHAT WENT WELL | WHAT DIDN’T GO SO WELL | INSIGHTS AND ACTIONS |
+|----------------|------------------------|----------------------|
+| The completion of all stories reflects the team's growing competency and commitment to the project goals. | Initial integration issues between the front and back end presented a significant learning curve. | **Insight**: Integration challenges are common in full-stack development. **Action**: Establish a more robust process for integration testing early in the sprint. |
+| Communication and collaborative problem-solving were key to overcoming the persistent database issue with MongoDB. | The time spent on troubleshooting the MongoDB bug affected our overall productivity. | **Insight**: Unfamiliarity with certain technologies can lead to unpredicted complications. **Action**: Invest in shared knowledge sessions post-sprint to review and learn from technical hurdles. |
+| Adaptability to the tools and technology stack was demonstrated as the team overcame various hurdles. | Underestimation of task complexity due to inexperience led to longer than anticipated task durations. | **Insight**: Accurate task estimation is a skill that improves with experience. **Action**: Use retrospective insights to refine estimation techniques for future sprints. |
+| Despite external challenges, such as illness and personal commitments, the team managed to stay on track and maintain productivity. | Balancing project work with external commitments was a persistent challenge for the team. | **Insight**: External pressures can impact sprint progress but can be mitigated with good communication and flexibility. **Action**: Enhance the existing contingency plans to better handle unexpected team member absences. |
+| The team's resilience in the face of technical difficulties has set a strong foundation for future sprints. | | **Insight**: A resilient team can turn challenges into opportunities for growth and improvement. **Action**: Recognize and celebrate the resilience shown by team members as a morale booster. |
 
 ---
 
