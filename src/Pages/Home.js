@@ -49,6 +49,9 @@ function Home(props) {
         console.error('There has been a problem with your fetch operation:', error);
       });
   };
+  const handleGoToTaskLists = () => {
+    navigate('/task-lists', {state: {userEmail: location.state.user.email}})
+  }
 
   const confirmTask = () => {
     const titleRegex = /.{1,}/;
@@ -167,6 +170,7 @@ function Home(props) {
         <h1>Hello, {userName}</h1>
         <div className='banner-buttons'>
           <button className='view-profile-button' onClick={handleGoToProfile}>View Profile</button>
+          <button className='view-task-lists-button' onClick={handleGoToTaskLists}>View Task Lists</button>
           <button className='logout-button' onClick={handleLogout}>Logout</button>
         </div>
       </div>
