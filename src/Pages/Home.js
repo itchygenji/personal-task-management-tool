@@ -21,8 +21,6 @@ function Home(props) {
   const [editMode, setEditMode] = useState(false)
   const [editedTask, setEditedTask] = useState({})
   const [showComplete, setShowComplete] = useState("")
-
-  const [checkDates, setCheckDates] = useState(false)
   const [currentDate, setCurrentDate] = useState((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear())
   
   const location = useLocation();
@@ -215,8 +213,7 @@ function Home(props) {
   //returns true if due date is not paste current date
   function dueDateCheck(dueD, curD){
     
-    //[0] = month, [1] = day, [2] = year
-    
+    //[0] = month, [1] = day, [2] = year 
     const dueSplit = dueD.split('/')
     const currSplit = curD.split('/')
     if(Number(dueSplit[2]) <= Number(currSplit[2])){
