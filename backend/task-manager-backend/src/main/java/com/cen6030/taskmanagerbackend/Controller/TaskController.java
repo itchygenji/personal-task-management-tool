@@ -19,6 +19,7 @@ public class TaskController {
     public Task addTask(@RequestBody Task task) {
         System.out.println("Received task for addition: " + task); // Debug log
         try {
+            task.setIsCompleted(false);
             taskRepo.save(task);
             return task;
         } catch (Exception e) {
@@ -28,13 +29,30 @@ public class TaskController {
         }
     }
 
+    //UNCOMPLETED TASKS
     @GetMapping("/findTasksByUserId/{userId}")
     public List<Task> findTasksByUserId(@PathVariable("userId") String userId){
         List<Task> test = taskRepo.findAll();
         List<Task> tasks = new ArrayList<>();
 
         for(Task task : test){
-            if(task.getUserId().equals(userId)){
+           
+            if(task.getUserId() != null && task.getUserId().equals(userId) && !task.getIsCompleted()){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    //COMPLETED TASKS
+    @GetMapping("/findCompletedTasksByUserId/{userId}")
+    public List<Task> findCompletedTasksByUserId(@PathVariable("userId") String userId){
+        List<Task> test = taskRepo.findAll();
+        List<Task> tasks = new ArrayList<>();
+
+        for(Task task : test){
+           
+            if(task.getUserId() != null && task.getUserId().equals(userId) && task.getIsCompleted()){
                 tasks.add(task);
             }
         }
@@ -48,6 +66,15 @@ public class TaskController {
 
     @PutMapping("/updateTask")
     public Task updateTask(@RequestBody Task task) {
+        task.setIsCompleted(false);
         return taskRepo.save(task); // This will update the task if it exists
     }
+
+    @PostMapping("/completeTask")
+    public Task completeTask(@RequestBody Task task) {
+        task.setIsCompleted(true);
+        taskRepo.save(task);
+        return task;
+    }
+
 }

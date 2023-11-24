@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import AddTaskForm from '../Components/AddTaskForm';
 import EditTaskForm from '../Components/EditTaskFrom';
+import CompletedTasks from '../Components/CompletedTasks';
 
 function Home(props) {
   const [tasks, setTasks] = useState([]);
@@ -16,12 +17,20 @@ function Home(props) {
   const [updateTasksView, setUpdateTasksView] = useState(false);
   const [editMode, setEditMode] = useState(false)
   const [editedTask, setEditedTask] = useState({})
+  const [showComplete, setShowComplete] = useState("")
   const location = useLocation();
   const navigate = useNavigate();
 
   const userEmail = location.state.user.email;
   const userName = location.state.user.given_name;
 
+  useEffect(() => {
+    setTitle(editedTask.title)
+    setDescription(editedTask.description)
+    setDueDate(editedTask.dueDate)
+    setPriority(editedTask.priority)
+    setCategory(editedTask.category)
+  },[editedTask])
   useEffect(() => {
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
@@ -66,12 +75,14 @@ function Home(props) {
       description: description,
       priority: priority,
       category: category,
-      userId: userEmail
+      userId: userEmail,
     };
 
     let defaultDate = '01/01/2099';
     try {
+    
       taskData.dueDate = dueDate.format('MM/DD/YYYY');
+   
     } catch (error) {
       taskData.dueDate = defaultDate;
     }
@@ -94,18 +105,21 @@ function Home(props) {
       setUpdateTasksView(!updateTasksView);
     });
   }
-
-  const cancelAddTask = () => {
-    setShowTaskForm(false);
+  const clearTaskState = () =>{
     setTitle("");
     setDescription("");
     setDueDate("");
     setPriority("");
     setCategory("");
+  }
+  const cancelAddTask = () => {
+    setShowTaskForm(false);
+    clearTaskState()
   };
 
   const addTask = () => {
-    setShowTaskForm(true);
+    clearTaskState()
+    setShowTaskForm(true)
   };
 
   const removeTask = (taskId) => {
@@ -117,6 +131,7 @@ function Home(props) {
       })
       .then(() => {
         setUpdateTasksView(!updateTasksView);
+        setShowComplete("")
       })
       .catch(error => {
         console.error('Error:', error);
@@ -132,14 +147,17 @@ function Home(props) {
   const saveEditedTask = () => {
     const updatedTask = {
       id: editedTask.id,
-      title,
-      description,
-      dueDate: dueDate.format('MM/DD/YYYY'),
-      priority,
-      category,
+      title: title,
+      description : description,
+      priority: priority,
+      category: category,
       userId: userEmail
     };
-  
+    try {
+      updatedTask.dueDate = dueDate.format('MM/DD/YYYY');
+    } catch (error) {
+      updatedTask.dueDate = dueDate;
+    }
     fetch(`http://localhost:8080/updateTask`, {
       method: 'PUT',
       body: JSON.stringify(updatedTask),
@@ -151,6 +169,8 @@ function Home(props) {
     .then(data => {
       setEditMode(false);
       setUpdateTasksView(!updateTasksView);
+      clearTaskState()
+      setEditedTask({})
     })
     .catch(error => console.error('Error:', error));
   };
@@ -163,6 +183,25 @@ function Home(props) {
       navigate('/login');
     }
   };
+  const handleCompleteTaskClick = (taskId) => {
+    if(showComplete === "")
+      setShowComplete(taskId)  
+  }
+
+  const completeTask = (task) => {
+    fetch(`http://localhost:8080/completeTask`, {
+      method: 'POST',
+      body: JSON.stringify(task),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      setShowComplete("")
+      setUpdateTasksView(!updateTasksView);
+    })    
+  }
 
   return (
     <div className='home'>
@@ -204,16 +243,28 @@ function Home(props) {
         }
         {tasks.map((task, index) => (
           <div className='task-button-group' key={task.id || index}>
-            <div className="task">
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
-              <p>Due date: {task.dueDate}</p>
-              <p>Priority: {task.priority}</p>
-              <p>Category: {task.category}</p>
+            <div className="task" onClick={() => handleCompleteTaskClick(task.id)}>
+              {task.id === showComplete &&
+              <div className='confirm-complete-task'>
+                <div className='complete-task-buttons'>
+                  <p><b>Complete Task?</b></p>
+                  <button className='complete-task-button' onClick={() => {completeTask(task)}}>✓</button>
+                  <button className='cancel-task-button' onClick={()=> {setShowComplete("")}}>X</button>
+                </div>
+              </div>
+              }
+              <div className='task-text' /* style={{display: showComplete === task.id? 'none' : 'block'}} */>
+                <h3>{task.title}</h3>
+                <p>{task.description}</p>
+                <p>Due date: {task.dueDate}</p>
+                <p>Priority: {task.priority}</p>
+                <p>Category: {task.category}</p>
+              </div>
             </div>
             <div className='edit-remove-buttons'>
               <button className='edit-button' onClick={() => editTask(task)}>Edit</button>
               <button className='remove-button' onClick={() => removeTask(task.id)}>Remove</button>
+
             </div>
           </div>
         ))}
@@ -228,10 +279,17 @@ function Home(props) {
               category={editedTask.category} setCategory={setCategory}
             />
             <button onClick={saveEditedTask}>Save</button> {/* Updated line */}
-            <button onClick={() => setEditMode(false)}>Cancel</button>
+            <button onClick={() => {
+              setEditMode(false)
+              clearTaskState()
+              }
+            }>Cancel</button>
           </div>
         }
+       
       </div>
+
+      <CompletedTasks userEmail={userEmail} updateTasksView={updateTasksView}/>
     </div>
   );
 }

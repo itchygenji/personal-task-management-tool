@@ -27,7 +27,6 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 required
                 id="outlined-required"
                 label="Title"
-                defaultValue=""
                 value={title}
                 onChange={e => setTitle(e.target.value)}
               />
@@ -38,6 +37,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 label="Description"
                 multiline
                 rows={4}
+               
                 value={description}
                 onChange={e => setDescription(e.target.value)}
               />
@@ -45,9 +45,11 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
               {/* Date Picker */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker label="Date Due" 
-                  value={dueDate}
-                  onChange={e => setDueDate(e)}
+                  <DatePicker 
+                    required
+                    label="Date Due" 
+                    value={dueDate}
+                    onChange={e => setDueDate(e)}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -58,6 +60,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                   <Select
                     labelId="priority-select-label"
                     id="priority-select"
+             
                     value={priority}
                     label="Priority"
                     onChange={e => setPriority(e.target.value)}
@@ -74,6 +77,7 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                 <Select
                   labelId="category-select-label"
                   id="category-select"
+                 
                   value={category}
                   label="Category"
                   onChange={e => setCategory(e.target.value)}

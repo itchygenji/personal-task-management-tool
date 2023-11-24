@@ -18,7 +18,7 @@ public class Task {
     private String category;
     private String dateCreated;
     private String userId;
-
+    private Boolean isCompleted;
     //empty string if not in any lists, else this field is the id of the list that contains it
     private String listId; 
 
@@ -109,6 +109,12 @@ public class Task {
     }
     public void setListId(String listId){
         this.listId = listId;
+    }
+    public Boolean getIsCompleted(){
+        return isCompleted;
+    }
+    public void setIsCompleted(Boolean isCompleted){
+        this.isCompleted = isCompleted;
     }
 
     @Override

@@ -21,15 +21,28 @@ html,body{
     margin-right: 20px;
     margin-bottom: 20px;
 }
-.tasks-container{
+.tasks-container, .completed-tasks-container{
     background-color:#282829;
     margin: auto;
-    width: 50%;
+    width: 56%;
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
     filter: drop-shadow(7px 1px 6px #000000);
+    z-index: 1;
+    position:relative;
 
+}
+.confirm-complete-task{
+  height: 100%;
+  width: 100%;
+  background-color: rgba(45, 35, 66, 0.87);
+  position: absolute;
+
+}
+.complete-task-buttons{
+  position: relative;
+  top: 20%;
 }
 .banner{
     text-align: center;
@@ -46,7 +59,7 @@ html,body{
     margin-right: 10px;
 }
 
-.tasks-container-header{
+.tasks-container-header, .completed-header{
     padding-left: 50px;
     margin-bottom: 50px;
 }
@@ -60,7 +73,6 @@ html,body{
 .edit-task-form{
     width: 600px;
     height: 550px;
-    position:absolute;
     top: 10%;
     right: 25%;
     background-color: #fff;
@@ -68,6 +80,7 @@ html,body{
     text-align: center;
     font-size: 18px;
     font-weight: 600;
+    z-index: 10;
 }
 .task-form-buttons{
     margin-top: 15px;
@@ -90,6 +103,38 @@ h3{
 .add-task-button{
     position: absolute;
 }
+
+.complete-task-buttons > button {
+  background-color: #fbeee0;
+  border: 2px solid #685c85;
+  border-radius: 50px;
+  box-shadow: black 4px 4px 0 0;
+  color: #685c85;
+  cursor: pointer;
+  display: inline;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 0 9px;
+  margin-right: 10px;
+
+}
+
+.edit-button:hover {
+  background-color: #fff;
+}
+
+.edit-button:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
 
 .remove-button {
     background-color: #fbeee0;
@@ -191,48 +236,3 @@ h3{
 } 
 
 
-/* .add-task-button {
-  align-items: center;
-  appearance: none;
-  background-color: #FCFCFD;
-  border-radius: 4px;
-  border-width: 0;
-  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-  box-sizing: border-box;
-  color: #36395A;
-  cursor: pointer;
-  display: inline-flex;
-  font-family: "JetBrains Mono",monospace;
-  height: 48px;
-  justify-content: center;
-  line-height: 1;
-  list-style: none;
-  overflow: hidden;
-  padding-left: 16px;
-  padding-right: 16px;
-  position: absolute;
-  text-align: left;
-  text-decoration: none;
-  transition: box-shadow .15s,transform .15s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  will-change: box-shadow,transform;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.add-task-button:focus {
-  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-}
-
-.add-task-button:hover {
-  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-  transform: translateY(-2px);
-}
-
-.add-task-button:active {
-  box-shadow: #D6D6E7 0 3px 7px inset;
-  transform: translateY(2px);
-} */

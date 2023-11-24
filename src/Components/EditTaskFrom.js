@@ -1,4 +1,3 @@
-import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -11,9 +10,6 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
 function EditTaskForm({ title, description, dueDate, priority, category, setTitle, setDescription, 
     setDueDate, setPriority, setCategory, onCancel, confirmTask, cancelAddTask}) {
-
-        
-
 
   return (
         <div >
@@ -47,8 +43,9 @@ function EditTaskForm({ title, description, dueDate, priority, category, setTitl
               {/* Date Picker */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker label="Date Due"
-                  onChange={e => setDueDate(e)}
+                  <DatePicker 
+                    label="Date Due"
+                    onChange={e => setDueDate(e)}
                   />
                 </DemoContainer>
               </LocalizationProvider>
