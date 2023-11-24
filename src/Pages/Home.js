@@ -7,6 +7,9 @@ import EditTaskForm from '../Components/EditTaskFrom';
 import CompletedTasks from '../Components/CompletedTasks';
 
 function Home(props) {
+
+  const date = new Date()
+
   const [tasks, setTasks] = useState([]);
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [title, setTitle] = useState("");
@@ -18,11 +21,16 @@ function Home(props) {
   const [editMode, setEditMode] = useState(false)
   const [editedTask, setEditedTask] = useState({})
   const [showComplete, setShowComplete] = useState("")
+
+  const [checkDates, setCheckDates] = useState(false)
+  const [currentDate, setCurrentDate] = useState((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear())
+  
   const location = useLocation();
   const navigate = useNavigate();
 
   const userEmail = location.state.user.email;
   const userName = location.state.user.given_name;
+
 
   useEffect(() => {
     setTitle(editedTask.title)
@@ -32,6 +40,7 @@ function Home(props) {
     setCategory(editedTask.category)
   },[editedTask])
   useEffect(() => {
+    console.log(currentDate)
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
     .then(data => {
@@ -198,11 +207,35 @@ function Home(props) {
     })
     .then(response => response.json())
     .then(data => {
+      console.log(data)
       setShowComplete("")
       setUpdateTasksView(!updateTasksView);
     })    
   }
-
+  //returns true if due date is not paste current date
+  function dueDateCheck(dueD, curD){
+    
+    //[0] = month, [1] = day, [2] = year
+    
+    const dueSplit = dueD.split('/')
+    const currSplit = curD.split('/')
+    if(Number(dueSplit[2]) <= Number(currSplit[2])){
+      if(Number(dueSplit[0]) <= Number(currSplit[0])){
+        if(Number(dueSplit[1]) < Number(currSplit[1])){
+          return true
+        }
+        else{
+          return false
+        }
+      }
+      else{
+        return false
+      }
+    }
+    else{
+      return false
+    }
+  }
   return (
     <div className='home'>
       <div className='banner'>
@@ -243,7 +276,7 @@ function Home(props) {
         }
         {tasks.map((task, index) => (
           <div className='task-button-group' key={task.id || index}>
-            <div className="task" onClick={() => handleCompleteTaskClick(task.id)}>
+            <div className="task" onClick={() => handleCompleteTaskClick(task.id)} style={{ backgroundColor : dueDateCheck(task.dueDate, currentDate) ? 'red' : '#685c85'}}>
               {task.id === showComplete &&
               <div className='confirm-complete-task'>
                 <div className='complete-task-buttons'>
