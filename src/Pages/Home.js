@@ -3,8 +3,10 @@ import '../css/Home.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import AddTaskForm from '../Components/AddTaskForm';
-import EditTaskForm from '../Components/EditTaskFrom';
+import EditTaskForm from '../Components/EditTaskForm';
 import CompletedTasks from '../Components/CompletedTasks';
+import RemoveTaskButton from '../Components/RemoveTaskButton';
+import CompleteTaskScreen from '../Components/CompleteTaskScreen';
 
 function Home(props) {
 
@@ -119,7 +121,6 @@ function Home(props) {
       .then(res => res.text()) 
       .then(data => {
         taskData.listId = data
-        console.log(taskData.listId)
 
         fetch(`http://localhost:8080/addTask`, {
           method: 'POST',
@@ -172,23 +173,6 @@ function Home(props) {
     clearTaskState()
     setShowTaskForm(true)
   };
-
-  const removeTask = (taskId) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this task?");
-  
-    if (isConfirmed) {
-      fetch(`http://localhost:8080/deleteTask/${taskId}`, {
-        method: 'DELETE'
-      })
-      .then(() => {
-        setUpdateTasksView(!updateTasksView);
-        setShowComplete("")
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-    }
-  };
   
   const editTask = (task) => {
     setEditMode(true);
@@ -239,31 +223,14 @@ function Home(props) {
       setShowComplete(taskId)  
   }
 
-  const completeTask = (task) => {
-    fetch(`http://localhost:8080/completeTask`, {
-      method: 'POST',
-      body: JSON.stringify(task),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      setShowComplete("")
-      setUpdateTasksView(!updateTasksView);
-    })    
-  }
   //returns true if due date is not paste current date
-  function dueDateCheck(dueD, curD){
-    
+  function dueDateCheck(dueD, curD){   
     //[0] = month, [1] = day, [2] = year 
     const dueSplit = dueD.split('/')
     const currSplit = curD.split('/')
     if(Number(dueSplit[2]) <= Number(currSplit[2])){
       if(Number(dueSplit[0]) <= Number(currSplit[0])){
         if(Number(dueSplit[1]) < Number(currSplit[1])){
-
           return true
         }
         else{
@@ -278,6 +245,7 @@ function Home(props) {
       return false
     }
   }
+
   return (
     <div className='home'>
       <div className='banner'>
@@ -322,13 +290,9 @@ function Home(props) {
           <div className='task-button-group' key={task.id || index}>
             <div className="task" onClick={() => handleCompleteTaskClick(task.id)} style={{ backgroundColor : dueDateCheck(task.dueDate, currentDate) ? 'red' : '#685c85'}}>
               {task.id === showComplete &&
-              <div className='confirm-complete-task'>
-                <div className='complete-task-buttons'>
-                  <p><b>Complete Task?</b></p>
-                  <button className='complete-task-button' onClick={() => {completeTask(task)}}>✓</button>
-                  <button className='cancel-task-button' onClick={()=> {setShowComplete("")}}>X</button>
-                </div>
-              </div>
+                <CompleteTaskScreen task={task} setShowComplete={setShowComplete}
+                                    updateTasksView={updateTasksView} setUpdateTasksView={setUpdateTasksView}
+                />
               }
               <div className='task-text'>
                 {dueDateCheck(task.dueDate, currentDate) &&
@@ -345,7 +309,9 @@ function Home(props) {
             </div>
             <div className='edit-remove-buttons'>
               <button className='edit-button' onClick={() => editTask(task)}>Edit</button>
-              <button className='remove-button' onClick={() => removeTask(task.id)}>Remove</button>
+              <RemoveTaskButton taskId={task.id} updateTasksView={updateTasksView} 
+                                setUpdateTasksView={setUpdateTasksView} setShowComplete={setShowComplete}
+              />
 
             </div>
           </div>

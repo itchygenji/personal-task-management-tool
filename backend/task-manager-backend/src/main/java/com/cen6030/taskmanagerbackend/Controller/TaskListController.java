@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cen6030.taskmanagerbackend.Model.Task;
 import com.cen6030.taskmanagerbackend.Model.TaskList;
 import com.cen6030.taskmanagerbackend.Repository.TaskListRepo;
 
@@ -64,6 +66,10 @@ public class TaskListController {
     @DeleteMapping("/deleteList/{listId}")
     public void deleteTask(@PathVariable("listId") String listId) {
         taskListRepo.deleteById(listId);
+    }
+    @PutMapping("/updateList")
+    public TaskList updateTask(@RequestBody TaskList list) {        
+        return taskListRepo.save(list);
     }
 }
 

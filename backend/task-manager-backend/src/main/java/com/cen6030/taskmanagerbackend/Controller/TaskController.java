@@ -66,7 +66,7 @@ public class TaskController {
 
         for(Task task : test){
            
-            if(task.getUserId().equals(userId) && !task.getListId().equals("")){
+            if(task.getUserId().equals(userId) && !task.getListId().equals("") && !task.getIsCompleted()){
                 tasks.add(task);
             }
         }
