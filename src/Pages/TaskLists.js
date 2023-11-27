@@ -14,7 +14,8 @@ function TaskLists() {
 
     const [taskLists, setTaskLists] = useState([]);
     const [tasks, setTasks] = useState([])
-    
+    const [updateTasksView, setUpdateTasksView] = useState(false)
+    const [updateListsView, setUpdateListsView] = useState(false)
 
     // Function to handle the logout process
     const handleLogout = () => {
@@ -36,35 +37,55 @@ function TaskLists() {
         .catch(error => { 
           console.error(error); 
         })
-    }, [userEmail])
+    }, [userEmail, updateListsView])
 
     //Get tasks for each task list
     useEffect(() => {
         fetch("http://localhost:8080/findTasksByUserIdForTaskLists/" + userEmail) 
         .then(res => res.json()) 
         .then(data => {
-            console.log(data)
             setTasks([...data]);
         }) 
         .catch(error => { 
           console.error(error); 
         }); 
-      }, [userEmail]);
+      }, [userEmail, updateTasksView]);
 
     const createTaskListCallBack = (data) => {
-        console.log(typeof data)
-
         const nextTaskLists = [...taskLists];
         nextTaskLists.push(data);
-        console.log(nextTaskLists)
         setTaskLists(nextTaskLists);
     }
+    const deleteList = (listId) => {
+        
+        //delete tasks with list id
+        fetch(`http://localhost:8080/deleteTasksFromList/${listId}`, {
+            method: 'DELETE'
+          })
+          .then(() => {
+            setUpdateTasksView(!updateTasksView);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
 
+        //delete list with id
+        fetch(`http://localhost:8080/deleteList/${listId}`, {
+            method: 'DELETE'
+          })
+          .then(() => {
+            setUpdateListsView(!updateListsView);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });  
+    }
     const lists = taskLists.map(taskList => {
         return (  
             <div className='task-list'>
                 
                 <h2>{taskList.listName}:</h2> 
+                <button onClick={() =>{deleteList(taskList.id)}}>Delete list</button>  
                 <div className='tasks-container'>
                                        
                     {tasks.map((task,index) => (
@@ -79,7 +100,7 @@ function TaskLists() {
                     ))}
                     <button>Add Task</button> 
                 </div> 
-                   
+                          
             </div> 
         )
     }) 

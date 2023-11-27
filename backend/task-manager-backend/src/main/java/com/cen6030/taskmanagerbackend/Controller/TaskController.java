@@ -77,6 +77,16 @@ public class TaskController {
     public void deleteTask(@PathVariable("taskId") String taskId) {
         taskRepo.deleteById(taskId);
     }
+    @DeleteMapping("/deleteTasksFromList/{listId}")
+    public void deleteTasksFromList(@PathVariable("listId") String listId) {
+        List<Task> allTasks = taskRepo.findAll();
+
+        for(Task task : allTasks){
+            if(task.getListId().equals(listId)){
+                taskRepo.deleteById(task.getId());
+            }
+        }
+    }
 
     @PutMapping("/updateTask")
     public Task updateTask(@RequestBody Task task) {
