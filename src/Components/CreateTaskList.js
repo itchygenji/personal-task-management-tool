@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 
 function CreateTaskList({ userEmail, callBack }) {
 
-    const [taskListName, setTaskListName] = useState('New Task List');
+    const [taskListName, setTaskListName] = useState('');
     
     const handleInput = (e) => {
         setTaskListName(e.target.value);
@@ -22,13 +22,18 @@ function CreateTaskList({ userEmail, callBack }) {
                 })
                 }).then((res => res.text())
             ).then((data) =>{
-                callBack(JSON.parse(data));
+                if(data === 'List added'){
+                    callBack({
+                        userId: userEmail,
+                        listName: taskListName
+                    });
+                }
                 console.log(data)
             });
     };
 
     return (
-        <div>
+        <div className='create-list-container'>
             {/* Title */}
             <TextField
                 required

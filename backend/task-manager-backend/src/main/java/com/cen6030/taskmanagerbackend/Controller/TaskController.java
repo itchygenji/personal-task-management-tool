@@ -17,7 +17,7 @@ public class TaskController {
 
     @PostMapping("/addTask")
     public Task addTask(@RequestBody Task task) {
-        System.out.println("Received task for addition: " + task); // Debug log
+        System.out.println("TEST: " + task); // Debug log
         try {
             task.setIsCompleted(false);
             taskRepo.save(task);
@@ -53,6 +53,20 @@ public class TaskController {
         for(Task task : test){
            
             if(task.getUserId() != null && task.getUserId().equals(userId) && task.getIsCompleted()){
+                tasks.add(task);
+            }
+        }
+        return tasks;
+    }
+
+    @GetMapping("/findTasksByUserIdForTaskLists/{userId}")
+    public List<Task> findTasksByUserIdForTaskLists(@PathVariable("userId") String userId){
+        List<Task> test = taskRepo.findAll();
+        List<Task> tasks = new ArrayList<>();
+
+        for(Task task : test){
+           
+            if(task.getUserId().equals(userId) && !task.getListId().equals("")){
                 tasks.add(task);
             }
         }

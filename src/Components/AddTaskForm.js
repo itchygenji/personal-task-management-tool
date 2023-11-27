@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
 function AddTaskForm({ title, description, dueDate, priority, category, setTitle, setDescription, 
-  setDueDate, setPriority, setCategory, onCancel, confirmTask, cancelAddTask}) {
+  setDueDate, setPriority, setCategory, chosenTaskList, setChosenTaskList, onCancel, confirmTask, cancelAddTask, taskLists}) {
     
   return (
         <div >
@@ -87,8 +87,25 @@ function AddTaskForm({ title, description, dueDate, priority, category, setTitle
                   <MenuItem value={"Leisure"}>Leisure</MenuItem>
                 </Select>
               </Box>
-            </Box>
 
+              {/* task list */}
+              <Box sx={{ minWidth: 120 , marginLeft: 1}}>
+                <InputLabel id="tasklist-select-label">Add to a Task List (Optional)</InputLabel>
+                <Select
+                  labelId="tasklist-select-label"
+                  id="tasklist-select"
+                 
+                  value={chosenTaskList}
+                  label="Task List"
+                  onChange={e => setChosenTaskList(e.target.value)}
+                >
+                {taskLists.map((list, index) => (
+                  <MenuItem value={list.listName}>{list.listName}</MenuItem>
+                ))}
+                </Select>
+              </Box>
+            </Box>
+            
         </div>
     )
 }

@@ -25,7 +25,8 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, String dueDate, String priority, String category, String userId) {
+    public Task(String title, String description, String dueDate, String priority, String category, String userId, String listId) {
+        
         LocalDateTime localDate = LocalDateTime.now();
         DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("MM/dd/YYYY");
 
@@ -36,7 +37,7 @@ public class Task {
         this.category = category;
         this.dateCreated = dateformatter.format(localDate);
         this.userId = userId;
-        this.listId = "";
+        this.listId = listId;
     }
 
     // Getters and setters

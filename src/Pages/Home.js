@@ -22,13 +22,13 @@ function Home(props) {
   const [editedTask, setEditedTask] = useState({})
   const [showComplete, setShowComplete] = useState("")
   const [currentDate, setCurrentDate] = useState((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear())
-  
+  const [chosenTaskList, setChosenTaskList] = useState({})
+  const [taskLists, setTaskLists] = useState([])
   const location = useLocation();
   const navigate = useNavigate();
 
   const userEmail = location.state.user.email;
   const userName = location.state.user.given_name;
-
 
   useEffect(() => {
     setTitle(editedTask.title)
@@ -37,8 +37,9 @@ function Home(props) {
     setPriority(editedTask.priority)
     setCategory(editedTask.category)
   },[editedTask])
+
+  //Get all tasks the user has
   useEffect(() => {
-    console.log(currentDate)
     fetch("http://localhost:8080/findTasksByUserId/" + userEmail) 
     .then(res => res.json()) 
     .then(data => {
@@ -49,6 +50,19 @@ function Home(props) {
     }); 
   }, [updateTasksView, userEmail]);
 
+  //get users task lists
+  useEffect(() => {
+    fetch(`http://localhost:8080/findTaskListsByUserId/${userEmail}`) 
+    .then(res => res.json()) 
+    .then(data => {
+      setTaskLists([...data]);
+    }) 
+    .catch(error => { 
+      console.error(error); 
+    })
+}, [userEmail])
+
+  //get user's profile info
   const handleGoToProfile = () => {
     fetch(`http://localhost:8080/findUserByEmail/${userEmail}`)
       .then((response) => {
@@ -65,13 +79,17 @@ function Home(props) {
         console.error('There has been a problem with your fetch operation:', error);
       });
   };
+
+  
   const handleGoToTaskLists = () => {
-    navigate('/task-lists', {state: {userEmail: location.state.user.email}})
+    navigate('/task-lists', {state: {user: location.state.user}})
   }
 
   const confirmTask = () => {
+
     const titleRegex = /.{1,}/;
     const titleError = "Error: Title is required.";
+
     if (!titleRegex.test(title)) {
       alert(titleError);
       return;
@@ -83,6 +101,7 @@ function Home(props) {
       priority: priority,
       category: category,
       userId: userEmail,
+      listId: ''
     };
 
     let defaultDate = '01/01/2099';
@@ -93,31 +112,56 @@ function Home(props) {
     } catch (error) {
       taskData.dueDate = defaultDate;
     }
-    
-    fetch(`http://localhost:8080/addTask`, {
-        method: 'POST',
-        body: JSON.stringify(taskData),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(res => {
-      res.json();
-      setShowTaskForm(false);
-      setTitle("");
-      setDescription("");
-      setDueDate("");
-      setPriority("");
-      setCategory("");
-      setUpdateTasksView(!updateTasksView);
-    });
+    //if user wants to add task to a certain task list, then get listid from listname and userid and add listid to task
+    if(chosenTaskList !== ''){
+      
+      fetch(`http://localhost:8080/getTaskListId/${userEmail}/${chosenTaskList}`) 
+      .then(res => res.text()) 
+      .then(data => {
+        taskData.listId = data
+        console.log(taskData.listId)
+
+        fetch(`http://localhost:8080/addTask`, {
+          method: 'POST',
+          body: JSON.stringify(taskData),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+        
+        })
+        .then(res => {
+          res.json();
+          setShowTaskForm(false);
+          clearTaskState()
+          setUpdateTasksView(!updateTasksView);
+        })
+      }) 
+    }
+    else{
+      fetch(`http://localhost:8080/addTask`, {
+          method: 'POST',
+          body: JSON.stringify(taskData),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(res => {
+        res.json();
+        setShowTaskForm(false);
+        clearTaskState()
+        setUpdateTasksView(!updateTasksView);
+      })
+    }
   }
+
+
   const clearTaskState = () =>{
     setTitle("");
     setDescription("");
     setDueDate("");
     setPriority("");
     setCategory("");
+    setChosenTaskList("")
   }
   const cancelAddTask = () => {
     setShowTaskForm(false);
@@ -219,6 +263,7 @@ function Home(props) {
     if(Number(dueSplit[2]) <= Number(currSplit[2])){
       if(Number(dueSplit[0]) <= Number(currSplit[0])){
         if(Number(dueSplit[1]) < Number(currSplit[1])){
+
           return true
         }
         else{
@@ -257,9 +302,11 @@ function Home(props) {
             dueDate={dueDate} setDueDate={setDueDate}
             priority={priority} setPriority={setPriority}
             category={category} setCategory={setCategory}
+            chosenTaskList={chosenTaskList} setChosenTaskList={setChosenTaskList}
             onCancel={cancelAddTask}
             confirmTask={confirmTask}
             cancelAddTask={cancelAddTask}
+            taskLists={taskLists}
           />
           <div className='task-form-buttons'>
             <button className='create-button' onClick={confirmTask}>Create</button>
@@ -283,7 +330,12 @@ function Home(props) {
                 </div>
               </div>
               }
-              <div className='task-text' /* style={{display: showComplete === task.id? 'none' : 'block'}} */>
+              <div className='task-text'>
+                {dueDateCheck(task.dueDate, currentDate) &&
+                  <>
+                  PAST DUE
+                  </>
+                }
                 <h3>{task.title}</h3>
                 <p>{task.description}</p>
                 <p>Due date: {task.dueDate}</p>
