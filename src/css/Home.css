@@ -1,0 +1,241 @@
+html,body{
+    background-color: #dbd8e3;
+}
+
+.task{
+    background-color: #685c85;
+    border: solid black 1px;
+    width: 100%;
+    text-align: center;
+    filter: drop-shadow(7px 1px 6px #000000);
+    word-wrap: break-word;
+    height: 300px;
+    width: 200px;
+    margin-bottom: 8px;
+    margin-top: 5px;
+    
+}
+.task-button-group{
+    
+    display: inline-block;
+    width: 200px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    vertical-align: top
+}
+.tasks-container, .completed-tasks-container{
+    background-color:#282829;
+    margin: auto;
+    width: 56%;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    filter: drop-shadow(7px 1px 6px #000000);
+    z-index: 1;
+    position:relative;
+    text-align: center;
+    
+}
+.confirm-complete-task{
+  height: 100%;
+  width: 100%;
+  background-color: rgba(45, 35, 66, 0.87);
+  position: absolute;
+
+}
+.complete-task-buttons{
+  position: relative;
+  top: 20%;
+}
+.banner{
+    text-align: center;
+    color: #dbd8e3;
+    background-color: #282829;
+    border-bottom: #000000 solid 3px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.banner-buttons{
+    padding-top: 5px;;
+}
+.view-profile-button, .view-task-lists-button{
+    margin-right: 10px;
+}
+
+.tasks-container-header, .completed-header{
+    padding-left: 50px;
+    margin-bottom: 50px;
+}
+
+.create-task-form{
+    position: absolute;
+    margin-left: 40px;
+    background-color: #fff;
+    border: black solid 2px;
+}
+.edit-task-form{
+    width: 600px;
+    height: 550px;
+    top: 10%;
+    right: 25%;
+    background-color: #fff;
+    border: black solid 1px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    z-index: 10;
+}
+.task-form-buttons{
+    margin-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.create-button{
+    margin-right: 10px;
+}
+h1{
+    margin: 0px;
+}
+h3{
+    border-bottom: solid black 1px;
+}
+.empty-tasks-p{
+    font-size: 24px;
+    font-weight: 600;
+}
+.add-task-button{
+    position: absolute;
+}
+
+.complete-task-buttons > button {
+  background-color: #fbeee0;
+  border: 2px solid #685c85;
+  border-radius: 50px;
+  box-shadow: black 4px 4px 0 0;
+  color: #685c85;
+  cursor: pointer;
+  display: inline;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 0 9px;
+  margin-right: 10px;
+
+}
+
+.edit-button:hover {
+  background-color: #fff;
+}
+
+.edit-button:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+
+.remove-button {
+    background-color: #fbeee0;
+    border: 2px solid #F35B59;
+    border-radius: 30px;
+    box-shadow: black 4px 4px 0 0;
+    color: #EA2F2D;
+    cursor: pointer;
+    display: inline;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 30px;
+    width: 72px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    padding: 0 4px;
+}
+
+.remove-button:hover {
+  background-color: #fff;
+}
+
+.remove-button:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+
+
+.edit-button {
+  background-color: #fbeee0;
+  border: 2px solid #8EF17F;
+  border-radius: 30px;
+  box-shadow: black 4px 4px 0 0;
+  color: #35A426;
+  cursor: pointer;
+  display: inline;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 30px;
+  width: 72px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 0 9px;
+  margin-right: 10px;
+
+}
+
+.edit-button:hover {
+  background-color: #fff;
+}
+
+.edit-button:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+.edit-remove-buttons{
+    text-align: center;
+}
+
+ .banner-buttons > button, .add-task-button, .task-form-buttons > button{
+
+
+    
+    background-color: #FCFCFD;
+    border-radius: 4px;
+    border-width: 0;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+   
+    color: #36395A;
+    cursor: pointer;
+    height: 27px;
+    padding-left: 16px;
+    padding-right: 16px;
+    transition: box-shadow .15s,transform .15s;
+    will-change: box-shadow,transform;
+    font-size: 13px;
+    font-weight: 575;
+}
+
+ .banner-buttons > button:focus, .add-task-button:focus {
+  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+}
+
+.banner-buttons > button:hover, .add-task-button:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.banner-buttons > button:active {
+  box-shadow: #D6D6E7 0 3px 7px inset;
+  transform: translateY(2px);
+} 
+
+

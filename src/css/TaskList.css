@@ -1,0 +1,16 @@
+.task-list-page{
+    text-align: center;
+    margin: 0;
+}
+.create-list-container{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.list-container{
+    margin-left: 20px;
+    
+    /* text-align: left; */
+}
+.task-list{
+    padding-left: 5px;
+}
